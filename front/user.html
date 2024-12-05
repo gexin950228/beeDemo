@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  用户页面: <br>
+  用户名: {{ .user.Name }} <br>
+  年龄: {{ .user.Age }} <br>
+  地址: {{ .user.Address }}
+  <br>
+  <br>
+  <br>
+  {{range $i, $k := .arrs}}
+  {{$i}} {{$k}} <br>
+  {{end}} <br>
+  {{range .arrs }}
+  {{ . }} <br>
+  {{end}}
+</body>
+
+</html>
