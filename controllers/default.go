@@ -28,13 +28,6 @@ func (g *GreetController) Get() {
 	g.TplName = "greet.tpl"
 }
 
-type User struct {
-	Id      int64
-	Name    string
-	Age     int64
-	Address string
-}
-
 func (u *UserController) Get() {
 	var user User
 	user.Address = "北京市"
@@ -44,10 +37,10 @@ func (u *UserController) Get() {
 	u.Data["user"] = user
 	u.Data["arrs"] = arrs
 	arrStruct := [4]User{
-		{Id: 1, Name: "葛新", Age: 29, Address: "北京市"},
-		{Id: 2, Name: "周航", Age: 18, Address: "北京市"},
-		{Id: 3, Name: "刘继雄", Age: 18, Address: "北京市"},
-		{Id: 4, Name: "高林飞", Age: 18, Address: "北京市"}}
+		{Id: "1", Name: "葛新", Age: 29, Address: "北京市"},
+		{Id: "2", Name: "周航", Age: 18, Address: "北京市"},
+		{Id: "3", Name: "刘继雄", Age: 18, Address: "北京市"},
+		{Id: "4", Name: "高林飞", Age: 18, Address: "北京市"}}
 	u.Data["arrStruct"] = arrStruct
 	mapc := map[string]interface{}{"name": "葛新", "age": 29, "gender": "male", "hobbies": []string{"羽毛球", "跑步", "骑行"}}
 	u.Data["mapc"] = mapc

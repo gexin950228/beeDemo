@@ -1,0 +1,52 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/static/js/jquery.min.js"></script>
+  <title>参数传递</title>
+</head>
+
+<body>
+  <h1>参数传递</h1>
+  <form action="/parameter1" method="POST">
+    <input type="text" placeholder="用户id" name="id" id="id"> <br>
+    <input type="text" placeholder="用户名" name="username" id="username"> <br>
+    <input type="text" placeholder="年龄" name="age" id="age"> <br>
+    <input type="text" placeholder="地址" name="address" id="address"> <br>
+    <!-- 是：<input type="radio" name="isTrue" value="true"> 否：<input type="radio" name="isTrue" value="false"> <br> -->
+    <input type="text" name="price" placeholder="价格"> <br>
+    <input type="button" id="submitButton" value="submit"> <br>
+
+  </form>
+</body>
+
+<script>
+  var submitButton = document.getElementById("submitButton")
+  submitButton.onclick = function (ev) {
+    let username = document.getElementById("username").value;
+    console.log(username)
+    let id = document.getElementById("id").value;
+    let address = document.getElementById("address").value;
+    let age = parseInt(document.getElementById("age").value, 10);
+    $.ajax({
+      url: "/parameter1",
+      type: "POST",
+      data: JSON.stringify({
+        "username": username,
+        "address": address,
+        "id": id,
+        "age": age
+      }),
+      dataType: "JSON",
+      success: function (data) {
+        alert(data["msg"])
+      },
+      fail: function (data) {
+        alert("处理异常")
+      }
+    })
+  }
+</script>
+
+</html>

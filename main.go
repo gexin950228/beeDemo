@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
-	beego.SetViewsPath("front")
+	beego.SetViewsPath("front/")
+	beego.SetStaticPath("/aaa", "static")
 	beego.Run()
 }

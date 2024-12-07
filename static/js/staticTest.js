@@ -1,0 +1,1 @@
+alert("Test link javascript")
