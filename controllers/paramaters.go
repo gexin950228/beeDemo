@@ -8,10 +8,11 @@ import (
 )
 
 type User struct {
-	Id      string `form:"id" json:"id" gorm:"id"`
-	Name    string `form:"username" json:"username" grom:"username"`
-	Age     int64  `form:"age" json:"age" gorm:"age"`
-	Address string `form:"address" json:"address" gorm:"address"`
+	Id      int64   `form:"id" json:"id" gorm:"id"`
+	Name    string  `form:"username" json:"username" grom:"username"`
+	Age     int64   `form:"age" json:"age" gorm:"age"`
+	Address string  `form:"address" json:"address" gorm:"address"`
+	Price   float64 `form:"price" json:"price" gorm:"price"`
 }
 
 type ParamaterController struct {
@@ -49,12 +50,12 @@ func (p *ParamaterController) Post() {
 	//  ajax获取
 	body := p.Ctx.Input.RequestBody
 	user := User{}
-	fmt.Printf("username: %v\n", user.Name)
 	error := json.Unmarshal(body, &user)
 	if error != nil {
 		fmt.Printf("解析json数据失败, 错误： %v\n", error.Error())
 	}
-	fmt.Printf("user: %v\n", user)
+	// fmt.Printf("username: %v\n", user.Name)
+	// fmt.Printf("user: %v\n", user)
 	result := map[string]string{"code": "200", "msg": "success"}
 	p.Data["json"] = result
 	p.ServeJSON()

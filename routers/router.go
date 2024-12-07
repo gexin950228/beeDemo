@@ -14,4 +14,6 @@ func init() {
 	beego.Router("/parameter1", &controllers.ParamaterController{})
 	// beego.Router("/parameter1/?:name", &controllers.ParamaterController{})
 	// beego.Router("/parameter1/:name", &controllers.ParamaterController{})
+	beego.Router("/xml", &controllers.XmlController{})
+	beego.Router("/flash", &controllers.FlashController{})
 }
