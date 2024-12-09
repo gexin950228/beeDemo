@@ -12,7 +12,7 @@ func main() {
 	beego.SetStaticPath("/aaa", "static")
 	username := beego.AppConfig.String("username")
 	fmt.Println(username)
-	beego.BConfig.WebConfig.EnableXSRF = true
+	beego.BConfig.WebConfig.EnableXSRF = false
 	beego.BConfig.WebConfig.XSRFKey = "610ETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o"
 	beego.BConfig.WebConfig.XSRFExpire = 3600
 	beego.Run()

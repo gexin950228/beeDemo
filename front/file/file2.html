@@ -1,0 +1,39 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajax文件上传</title>
+  <script src="/static/js/jquery.min.js"></script>
+</head>
+
+<body>
+  <form action="/file2" method="post" enctype="multipart/form-data">
+    {{ .xsrfData }}
+    <input type="file" name="file" id="file"> <br>
+    <input type="button" id="btnUpload" name="btnUpload" value="文件上传">
+  </form>
+  <script>
+    let btnUpload = document.getElementById("btnUpload");
+    btnUpload.onclick = function (ev) {
+      var formData = new FormData();
+      alert("执行文件上传")
+      formData.append("file", $("#file")[0].files[0]);
+      $.ajax({
+        url: "/file2",
+        type: "POST",
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (data) {
+          alert(data["msg"])
+        },
+        fail: function (data) {
+          alert(data["msg"])
+        }
+      })
+    }
+  </script>
+</body>
+
+</html>

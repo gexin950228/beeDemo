@@ -1,0 +1,17 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文件上传1</title>
+</head>
+
+<body>
+  <form action="/file1" method="post" enctype="multipart/form-data">
+    {{ .xsrfData }}
+    <input type="file" name="file" value="file"> <br>
+    <input type="submit" value="提交">
+  </form>
+</body>
+
+</html>

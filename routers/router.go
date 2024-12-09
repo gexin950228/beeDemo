@@ -23,4 +23,7 @@ func init() {
 	beego.Router("/xml", &controllers.XmlController{})
 	beego.Router("/flash", &controllers.FlashController{})
 	beego.Router("/xsrf", &controllers.TestXsrfController{})
+	beego.Router("/file1", &controllers.File1Controller{})
+	beego.Router("/file2", &controllers.FileAjaxController{})
+
 }
