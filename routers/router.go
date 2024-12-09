@@ -22,4 +22,5 @@ func init() {
 	beego.Router("/parameter/", &controllers.ParameterController{}, "post:Post")
 	beego.Router("/xml", &controllers.XmlController{})
 	beego.Router("/flash", &controllers.FlashController{})
+	beego.Router("/xsrf", &controllers.TestXsrfController{})
 }

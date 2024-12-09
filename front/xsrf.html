@@ -1,0 +1,17 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xsrf</title>
+</head>
+
+<body>
+  test xsrf页面
+  <form action="/xsrf" method="post">
+    {{ .xsrfData }}
+    <input type="submit" value="提交"></input>
+  </form>
+</body>
+
+</html>
