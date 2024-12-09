@@ -13,6 +13,8 @@ type TestXsrfController struct {
 
 func (t *TestXsrfController) Get() {
 	t.Data["xsrfData"] = template.HTML(t.XSRFFormHTML())
+	username := t.GetSession("beegoSession")
+	fmt.Println(username)
 	t.TplName = "xsrf.html"
 }
 

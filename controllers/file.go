@@ -47,6 +47,7 @@ func (f2 FileAjaxController) Post() {
 		fmt.Println(err.Error())
 	}
 	fileName := h.Filename
+	f2.SetSession("beegoSession", "zhiliao")
 	f2.SaveToFile("file", "upload/"+utils.UniqueName(fileName))
 	f2.Data["xsrfData"] = template.HTML(f2.XSRFFormHTML())
 	f2.Data["json"] = map[string]string{"code": "200", "msg": "上传成功"}
