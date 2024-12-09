@@ -49,19 +49,16 @@ func (f *FlashController) Post() {
 	fmt.Println("=================================================")
 	name := f.Input().Get("name")
 	age := f.Input().Get("age")
-	fmt.Print(name, age)
+	fmt.Printf("%v, %v\n", name, age)
 	if name == "" {
 		flash.Error("用户名不能为空")
 		flash.Store(&f.Controller)
-		fmt.Println("1111111111111111111111111111111111")
 		f.Redirect("/flash", 302)
 	} else if age != "123" {
 		flash.Notice("密码错误")
 		flash.Store(&f.Controller)
-		fmt.Println("22222222222222222222")
 		f.Redirect("/flash", 302)
 	} else {
-		fmt.Println("3333333333333333333333")
 		flash.Success("成功")
 		flash.Store(&f.Controller)
 		f.Redirect("/flash", 302)

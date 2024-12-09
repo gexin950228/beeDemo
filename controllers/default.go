@@ -29,6 +29,7 @@ func (g *GreetController) Get() {
 }
 
 func (u *UserController) Get() {
+
 	var user User
 	user.Address = "北京市"
 	user.Age = 29

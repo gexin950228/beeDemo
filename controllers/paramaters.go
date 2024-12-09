@@ -15,11 +15,11 @@ type User struct {
 	Price   float64 `form:"price" json:"price" gorm:"price"`
 }
 
-type ParamaterController struct {
+type ParameterController struct {
 	beego.Controller
 }
 
-func (p *ParamaterController) Get() {
+func (p *ParameterController) Get() {
 	// name := p.GetString("name")
 	// fmt.Printf("前端传递的uri参数name: %s\n", name)
 	// name1 := p.Input().Get("name")
@@ -31,7 +31,7 @@ func (p *ParamaterController) Get() {
 	p.TplName = "paramaters.html"
 }
 
-func (p *ParamaterController) Post() {
+func (p *ParameterController) Post() {
 	// name := p.GetString("username")
 	// age, _ := p.GetInt("age")
 	// isTrue, _ := p.GetBool("isTrue")

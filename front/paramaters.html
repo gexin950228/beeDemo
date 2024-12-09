@@ -9,7 +9,7 @@
 
 <body>
   <h1>参数传递</h1>
-  <form action="/parameter1" method="POST">
+  <form action="/parameter" method="POST">
     <input type="text" placeholder="用户id" name="id" id="id"> <br>
     <input type="text" placeholder="用户名" name="username" id="username"> <br>
     <input type="text" placeholder="年龄" name="age" id="age"> <br>
@@ -32,7 +32,7 @@
     let price = document.getElementById("price").value;
     console.log(price)
     $.ajax({
-      url: "/parameter1",
+      url: "/parameter",
       type: "POST",
       data: JSON.stringify({
         "username": username,
