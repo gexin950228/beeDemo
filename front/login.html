@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页</title>
+    <script src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+    <h1>这是登录页</h1>
+    <form action="/login" method="post">
+        <input type="text" name="username" id="username" placeholder="请输入用户名"> <br>
+        <input type="password" name="password" id="password" placeholder="请输入密码"> <br>
+        <input type="button" value="登录" id="btnLogin">
+    </form>
+    <script type="text/javascript">
+        window.onload = function () {
+            let redirectUri = {{ .sourceUri }};
+            // alert(data);
+            let btnLogin = document.getElementById('btnLogin');
+            btnLogin.onclick = function () {
+                let username = document.getElementById('username').value;
+                let password = document.getElementById('password').value;
+                let loginData = {
+                    username: username,
+                    password: password,
+                    redirectUri: redirectUri,
+                }
+                console.log(loginData);
+                var UserData = JSON.stringify(loginData);
+                $.ajax({
+                    url: '/login',
+                    type: 'post',
+                    data: UserData,
+                    success: function (data) {
+                        alert(data["msg"]);
+                    },
+                    fail: function (data) {
+                        alert(data);
+                    }
+                })
+
+            }
+
+        };
+    </script>
+</body>
+</body>
+</html>

@@ -18,12 +18,12 @@ func init() {
 	// beego.AutoRouter(&controllers.ParameterController{})
 	// beego.Router("/parameter1/:name", &controllers.ParamaterController{})
 	//  自定义路由
-	beego.Router("/parameter/:name", &controllers.ParameterController{}, "get:Get")
+	beego.Router("/parameter/?:name", &controllers.ParameterController{}, "get:Get")
 	beego.Router("/parameter/", &controllers.ParameterController{}, "post:Post")
 	beego.Router("/xml", &controllers.XmlController{})
 	beego.Router("/flash", &controllers.FlashController{})
 	beego.Router("/xsrf", &controllers.TestXsrfController{})
 	beego.Router("/file1", &controllers.File1Controller{})
 	beego.Router("/file2", &controllers.FileAjaxController{})
-
+	beego.Router("/login", &controllers.LoginController{})
 }

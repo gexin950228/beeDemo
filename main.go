@@ -1,9 +1,9 @@
 package main
 
 import (
+	"beeDemo/controllers"
 	_ "beeDemo/routers"
 	"fmt"
-
 	"github.com/astaxie/beego"
 )
 
@@ -16,5 +16,6 @@ func main() {
 	beego.BConfig.WebConfig.XSRFKey = "610ETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o"
 	beego.BConfig.WebConfig.XSRFExpire = 3600
 	beego.BConfig.WebConfig.Session.SessionOn = true
+	beego.InsertFilter("/*", beego.BeforeRouter, controllers.FilterUser)
 	beego.Run()
 }
