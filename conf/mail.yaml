@@ -1,0 +1,6 @@
+host: "smtp.qq.com"
+account: "861439031@qq.com"
+password: "ywidsfdbuqgqbbee"
+plain: "auth"
+addr: "smtp.qq.com"
+port: 465

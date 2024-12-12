@@ -12,12 +12,12 @@
     {{ .xsrfData }}
     <input type="file" name="file" id="file"> <br>
     <input type="button" id="btnUpload" name="btnUpload" value="文件上传">
+    <div id="showUploadResult" style="display: none">上传成功</div>
   </form>
   <script>
     let btnUpload = document.getElementById("btnUpload");
     btnUpload.onclick = function (ev) {
       var formData = new FormData();
-      alert("执行文件上传")
       formData.append("file", $("#file")[0].files[0]);
       $.ajax({
         url: "/file2",
@@ -26,7 +26,9 @@
         contentType: false,
         processData: false,
         success: function (data) {
-          alert(data["msg"])
+          let context = data["filename"] + "上传成功"
+          $('#showUploadResult').text(context);
+          $('#showUploadResult').css('display', 'block');
         },
         fail: function (data) {
           alert(data["msg"])

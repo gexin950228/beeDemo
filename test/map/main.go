@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() {
+func LoadMailConfig() {
 	var mapa map[string]string
 	mapa = make(map[string]string)
 	mapa["name"] = "葛新"

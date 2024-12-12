@@ -10,7 +10,7 @@
     <form action="/login" method="post">
         <input type="text" name="username" id="username" placeholder="请输入用户名"> <br>
         <input type="password" name="password" id="password" placeholder="请输入密码"> <br>
-        <input type="button" value="登录" id="btnLogin">
+        <input type="button" value="登录" id="btnLogin"> <br>
     </form>
     <script type="text/javascript">
         window.onload = function () {
@@ -33,6 +33,7 @@
                     data: UserData,
                     success: function (data) {
                         alert(data["msg"]);
+                        window.location.href = redirectUri;
                     },
                     fail: function (data) {
                         alert(data);

@@ -1,0 +1,5 @@
+host: smtp.163.com
+port: 25
+password: GKSDMDZABTOERBOR
+auth: plain
+account: gexin17812126257
