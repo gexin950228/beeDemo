@@ -104,7 +104,7 @@ func (l *LoginController) Post() {
 
 	if loginData.Username == "gexin" && loginData.Password == "123456" && loginData.VerifyCode == searchRedisResult.RedisResult {
 		redisConn := utils.LoadRedisConfig()
-		redisInfo := utils.RedisInfo{Key: loginData.Username + "loginStatus", Value: "Logined", ExpireTime: 120}
+		redisInfo := utils.RedisInfo{Key: loginData.Username + "loginStatus", Value: "Logined", ExpireTime: 86400}
 		utils.SaveToRedis(redisConn, redisInfo)
 		data := map[string]string{"code": "200", "msg": "success", "redirectUri": loginData.RedirectUri}
 		//l.Data["json"] = data

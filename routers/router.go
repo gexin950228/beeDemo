@@ -27,4 +27,5 @@ func init() {
 	beego.Router("/file2", &controllers.FileAjaxController{})
 	beego.Router("/login/?:redirectUri", &controllers.LoginController{})
 	beego.Router("/loginVerifyCode", &controllers.SendVerifyCodeController{})
+	beego.Router("/validator", &controllers.ValicatorController{})
 }

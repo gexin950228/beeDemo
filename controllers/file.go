@@ -13,6 +13,8 @@ type File1Controller struct {
 }
 
 func (f *File1Controller) Get() {
+	fmt.Println("================url反转==================")
+	fmt.Println(beego.URLFor("File1Controller.Get", "name", "gexin", "age", 28))
 	f.Data["xsrfData"] = template.HTML(f.XSRFFormHTML())
 	f.TplName = "file/file1.html"
 }

@@ -8,6 +8,8 @@
 </head>
 
 <body>
+<a href="{{ urlfor "File1Controller.Get"}}">文件上传1</a> <br>
+<a href="{{ urlfor "File1Controller.Get" "name" "gexin" "age" 29}}">带参数的url反转</a> <br>
   用户页面: <br>
   用户名: {{ .user.Name }} <br>
   年龄: {{ .user.Age }} <br>
