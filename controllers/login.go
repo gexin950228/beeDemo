@@ -103,10 +103,15 @@ func (l *LoginController) Post() {
 	}
 
 	if loginData.Username == "gexin" && loginData.Password == "123456" && loginData.VerifyCode == searchRedisResult.RedisResult {
-		l.SetSession("loginUser", loginData.Username)
+		redisConn := utils.LoadRedisConfig()
+		redisInfo := utils.RedisInfo{Key: loginData.Username + "loginStatus", Value: "Logined", ExpireTime: 120}
+		utils.SaveToRedis(redisConn, redisInfo)
 		data := map[string]string{"code": "200", "msg": "success", "redirectUri": loginData.RedirectUri}
 		//l.Data["json"] = data
 		utils.LogToFile("Info", "用户登录成功")
+		l.SetSession("loginUser", loginData.Username)
+		l.SetSecureCookie("loginUser", loginData.Username, "", 30, redisConn)
+		fmt.Println("登录成功")
 		l.Data["json"] = data
 		l.ServeJSON()
 	} else {

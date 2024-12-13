@@ -18,8 +18,17 @@
     </form>
     <script type="text/javascript">
         let redirectUri = {{ .redirectUri }};
-        let btnFetVerifyCode = document.getElementById('btnGetVerifyCode');
-        btnFetVerifyCode.onclick = function (ev) {
+        var timer;
+        let btnGetVerifyCode = document.getElementById('btnGetVerifyCode');
+        btnGetVerifyCode.addEventListener('click', function () {
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                btnGetVerifyCode.disabled = false;
+            }, 12000);
+        });
+        // let btnFetVerifyCode = document.getElementById('btnGetVerifyCode');
+        btnGetVerifyCode.onclick = function (ev) {
+            btnGetVerifyCode.disabled = true;
             let username = document.getElementById('username').value;
             let mail = document.getElementById('mail').value;
             let requestData = JSON.stringify({ "username": username, "mail": mail });

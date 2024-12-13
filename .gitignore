@@ -1,4 +1,5 @@
 tmp/*
 logs/*
 upload/*
-beeDemo.exe
+beeDemo.exe*
+logs/*
