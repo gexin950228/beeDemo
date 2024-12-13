@@ -2,8 +2,10 @@ package main
 
 import (
 	"beeDemo/controllers"
+	// "beeDemo/controllers"
 	_ "beeDemo/routers"
 	"beeDemo/utils"
+	"fmt"
 	"github.com/astaxie/beego"
 )
 
@@ -16,5 +18,7 @@ func main() {
 	beego.BConfig.WebConfig.XSRFExpire = 3600
 	beego.BConfig.WebConfig.Session.SessionOn = true
 	beego.InsertFilter("/*", beego.BeforeRouter, controllers.FilterUser)
+	redisConn := utils.LoadRedisConfig()
+	fmt.Println(redisConn)
 	beego.Run()
 }

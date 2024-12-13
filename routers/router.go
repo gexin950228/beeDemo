@@ -25,5 +25,6 @@ func init() {
 	beego.Router("/xsrf", &controllers.TestXsrfController{})
 	beego.Router("/file1", &controllers.File1Controller{})
 	beego.Router("/file2", &controllers.FileAjaxController{})
-	beego.Router("/login", &controllers.LoginController{})
+	beego.Router("/login/?:redirectUri", &controllers.LoginController{})
+	beego.Router("/loginVerifyCode", &controllers.SendVerifyCodeController{})
 }
