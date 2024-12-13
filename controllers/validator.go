@@ -18,7 +18,7 @@ func (c *ValicatorController) Get() {
 type Validate struct {
 	Name  string `form:"name" json:"name" binding:"required"`
 	Phone string `form:"phone" json:"phone" binding:"required"`
-	Age   int    `form:"age" json:"age" binding:"required"`
+	Age   int64  `form:"age" json:"age" binding:"required"`
 	Email string `form:"email" json:"email" binding:"required"`
 }
 
