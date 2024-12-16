@@ -3,9 +3,8 @@ package controllers
 import (
 	"beeDemo/utils"
 	"fmt"
-	"html/template"
-
 	"github.com/astaxie/beego"
+	"html/template"
 )
 
 type File1Controller struct {
@@ -27,6 +26,7 @@ func (f *File1Controller) Post() {
 	}
 	fileName := h.Filename
 	f.SaveToFile("file", "upload/"+utils.UniqueName(fileName))
+	utils.LogToFile("Info", fmt.Sprintf("%s上传成功", fileName))
 	f.TplName = "ok.html"
 }
 

@@ -28,4 +28,7 @@ func init() {
 	beego.Router("/login/?:redirectUri", &controllers.LoginController{})
 	beego.Router("/loginVerifyCode", &controllers.SendVerifyCodeController{})
 	beego.Router("/validator", &controllers.ValicatorController{})
+	beego.Router("/abort", &controllers.AbortController{})
+	beego.Router("/tpl1", &controllers.TemplateController{})
+	beego.Router("/tpl2", &controllers.Template2Controller{})
 }

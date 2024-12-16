@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tpl1</title>
+</head>
+<body>
+<h1>模板语法</h1>
+{{ range .ares }}
+  <p>{{ . }}</p>
+{{ end }}
+<h1>------------------------------</h1>
+{{ range $i, $k :=  .ares }}
+  <p>{{ $i }}:{{ $k }}</p>
+{{ end }}
+<!--判断-->
+{{ .str | len }} <br>
+是否可以进入：
+{{ if ge .age  18 }}
+  {{ if .isVIP }}
+    可以
+  {{ else }}
+    不可以，需要会员卡
+  {{ end }}
+{{else}}
+    不可以，年龄需要满18岁
+{{ end }} <br>
+{{.user.Name}} {{.user.Address }} {{ .user.Age }} </br>
+
+{{with .user }}
+    {{ .Age }} <br>
+{{end}}
+</body>
+</html>
