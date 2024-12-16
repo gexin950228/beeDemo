@@ -2,7 +2,10 @@ package main
 
 import (
 	"beeDemo/controllers"
+<<<<<<< HEAD
 	// "beeDemo/controllers"
+=======
+>>>>>>> 8b8e7ec9f9f25040bdeebafc323e59cc42cb1e31
 	_ "beeDemo/routers"
 	"beeDemo/utils"
 	"fmt"
@@ -18,7 +21,11 @@ func main() {
 	beego.BConfig.WebConfig.XSRFExpire = 3600
 	beego.BConfig.WebConfig.Session.SessionOn = true
 	// 全局过滤器
+<<<<<<< HEAD
 	// beego.InsertFilter("/*", beego.BeforeRouter, controllers.FilterUser)
+=======
+	beego.InsertFilter("/*", beego.BeforeRouter, controllers.FilterUser)
+>>>>>>> 8b8e7ec9f9f25040bdeebafc323e59cc42cb1e31
 	redisConn := utils.LoadRedisConfig()
 	fmt.Println(redisConn)
 

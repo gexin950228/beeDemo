@@ -17,7 +17,7 @@ type RedisConn struct {
 
 func LoadRedisConfig() RedisConn {
 	var redisConfig RedisConn
-	data, err := os.ReadFile("D:\\beeDemo\\conf\\redis.yaml")
+	data, err := os.ReadFile("/Users/gexin/Desktop/beeDemo/conf/redis.yaml")
 	if err != nil {
 		fmt.Printf("打开redis配置文件出粗: %s\n", err.Error())
 	}

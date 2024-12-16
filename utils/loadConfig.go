@@ -16,7 +16,7 @@ type Mail struct {
 }
 
 func LoadConfig() (mail Mail) {
-	const cfgFile = "D:\\beeDemo\\conf\\mail.yaml"
+	const cfgFile = "/Users/gexin/Desktop/beeDemo/conf/mail.yaml"
 	data, err := os.ReadFile(cfgFile)
 	if err != nil {
 		fmt.Printf("err: %s\n", err)
