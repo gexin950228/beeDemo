@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v3"
 	"os"
+	"path/filepath"
 )
 
 type Mail struct {
@@ -16,7 +17,8 @@ type Mail struct {
 }
 
 func LoadConfig() (mail Mail) {
-	const cfgFile = "/Users/gexin/Desktop/beeDemo/conf/mail.yaml"
+	pwd, _ := os.Getwd()
+	cfgFile := filepath.Join(pwd, "conf/", "mail.yaml")
 	data, err := os.ReadFile(cfgFile)
 	if err != nil {
 		fmt.Printf("err: %s\n", err)

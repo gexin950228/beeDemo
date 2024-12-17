@@ -2,6 +2,7 @@ package routers
 
 import (
 	"beeDemo/controllers"
+	"beeDemo/controllers/OrmTest"
 
 	"github.com/astaxie/beego"
 )
@@ -31,4 +32,5 @@ func init() {
 	beego.Router("/abort", &controllers.AbortController{})
 	beego.Router("/tpl1", &controllers.TemplateController{})
 	beego.Router("/tpl2", &controllers.Template2Controller{})
+	beego.Router("/orm1", &OrmTest.TestOrmController{})
 }

@@ -6,6 +6,7 @@ import (
 	"golang.org/x/net/context"
 	"gopkg.in/yaml.v3"
 	"os"
+	"path"
 	"time"
 )
 
@@ -17,7 +18,9 @@ type RedisConn struct {
 
 func LoadRedisConfig() RedisConn {
 	var redisConfig RedisConn
-	data, err := os.ReadFile("/Users/gexin/Desktop/beeDemo/conf/redis.yaml")
+	pwd, _ := os.Getwd()
+	cfgFile := path.Join(pwd, "conf/", "redis.yaml")
+	data, err := os.ReadFile(cfgFile)
 	if err != nil {
 		fmt.Printf("打开redis配置文件出粗: %s\n", err.Error())
 	}

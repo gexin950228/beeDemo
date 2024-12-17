@@ -26,11 +26,7 @@ func (f *File1Controller) Post() {
 	}
 	fileName := h.Filename
 	f.SaveToFile("file", "upload/"+utils.UniqueName(fileName))
-<<<<<<< HEAD
-	utils.LogToFile("Info", fmt.Sprintf("%s上传成功", fileName))
-=======
 	utils.LogToFile("Info", fmt.Sprintf("%s文件上传成功", h.Filename))
->>>>>>> 8b8e7ec9f9f25040bdeebafc323e59cc42cb1e31
 	f.TplName = "ok.html"
 }
 
