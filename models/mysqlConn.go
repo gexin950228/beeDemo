@@ -7,6 +7,16 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
+type User struct {
+	Id      int    `orm:"pk;auto;unique"`
+	Name    string `orm:"size(255)"`
+	Address string `orm:"size(255)"`
+}
+
+func (u User) TableName() string {
+	return "sys_user"
+}
+
 func init() {
 	mysqlConn := utils.LoadMysqlConfig()
 	fmt.Println(mysqlConn)
@@ -18,4 +28,5 @@ func init() {
 		utils.LogToFile("Error", fmt.Sprintf("数据库初始化失败，错误: %s", err.Error()))
 		return
 	}
+	orm.RegisterModel(new(LoginUser))
 }

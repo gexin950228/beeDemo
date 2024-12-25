@@ -2,22 +2,12 @@ package main
 
 import (
 	"beeDemo/controllers"
-	"beeDemo/models"
 	_ "beeDemo/routers"
 	"beeDemo/utils"
 	"fmt"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 )
-
-func init() {
-	mysqlConn := utils.LoadMysqlConfig()
-	orm.RegisterDriver("mysql", orm.DRMySQL)
-	dst := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4", mysqlConn.User, mysqlConn.Password, mysqlConn.Host, mysqlConn.Port, mysqlConn.Database)
-	orm.RegisterDataBase("default", "mysql", dst)
-	orm.RegisterModel(new(models.LoginUser))
-}
 
 func main() {
 	utils.LoadConfig()

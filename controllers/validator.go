@@ -18,7 +18,7 @@ func (c *ValicatorController) Get() {
 type Validate struct {
 	Name  string `form:"name" json:"name" binding:"name" valid:"Required"`
 	Phone string `form:"phone" json:"phone" valid:"Required;Mobile" binding:"phone"`
-	Age   int    `form:"age" json:"age" valid:"Numeric;Required;Min(0);Max(200)" binding:"age,min=0,max=200"`
+	Age   int    `form:"age" json:"age" valid:"Required;Min(0);Max(150)" binding:"age,min=0,max=150"`
 	Email string `form:"email" json:"email" valid:"Email;Required" binding:"email"`
 }
 
@@ -45,6 +45,8 @@ func (c *ValicatorController) Post() {
 		"Numeric":  "必须是有效的数字",
 		"Email":    "无效的电子邮件地址",
 		"Mobile":   "无效的手机号码",
+		"Min":      "年龄最小不能低于0",
+		"Max":      "年龄不能超过150岁",
 	}
 	validation.SetDefaultMessage(MessagTpls)
 	valid := validation.Validation{}
