@@ -2,6 +2,7 @@ package OrmTest
 
 import (
 	"beeDemo/utils"
+	"errors"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
@@ -16,7 +17,7 @@ type User struct {
 	Id            int       `orm:"pk;auto"`
 	Username      string    `orm:"size(500)"`
 	Address       string    `orm:"size(500)"`
-	LastLoginTime time.Time `orm:"auto_now_add;type(datetime)"`
+	LastLoginTime time.Time `orm:"auto_now_add;type(datetime)";column(last_login_time)`
 	RedirectUri   string    `orm:"size(500)"`
 	Password      string    `orm:"size(500)"`
 }
@@ -70,11 +71,42 @@ func (t *TestOrmController) Get() {
 	//fmt.Printf("user1: %+v \n", user1)
 
 	// ReadOrCreate
-	user := User{Username: "乔建康", Address: "北京市东城区安定门国家能源集团C座", Password: "Q!@oJianK24", RedirectUri: "/health", LastLoginTime: time.Now()}
-	create, i, err := o.ReadOrCreate(&user, "Username", "Address", "Password")
+	//user := User{Username: "乔建康", Address: "北京市东城区安定门国家能源集团C座", Password: "Q!@oJianK24", RedirectUri: "/health", LastLoginTime: time.Now()}
+	//create, i, err := o.ReadOrCreate(&user, "Username", "Address", "Password")
+	//if err != nil {
+	//	return
+	//}
+	//fmt.Println(create, i)
+
+	// Read
+	//user := User{Id: 6, Username: "乔建康", Address: "北京市东城区安定门国家能源集团C座", Password: "Q!@oJianK24", RedirectUri: "/health"}
+	//err := o.Read(&user)
+	//if errors.Is(err, orm.ErrNoRows) {
+	//	fmt.Printf("err: %s\n", err.Error())
+	//	fmt.Println("没有查询到数据")
+	//} else {
+	//	fmt.Printf("user:%#v\n", user)
+	//}
+
+	// Update
+	user := User{Id: 1, Username: "葛新"}
+	err := o.Read(&user)
 	if err != nil {
-		return
+		if errors.Is(err, orm.ErrNoRows) {
+			fmt.Printf("error: %v\n", err.Error())
+		}
+	} else if errors.Is(err, orm.ErrNoRows) {
+		fmt.Printf("error: %v\n", err.Error())
+	} else {
+		user.Username = "葛新"
+		user.Address = "湖南省湘潭市"
+		user.RedirectUri = "/hehe"
+		user.LastLoginTime = time.Now()
+		update, err := o.Update(&user)
+		if err != nil {
+			fmt.Println(update, err)
+			return
+		}
 	}
-	fmt.Println(create, i)
 	t.TplName = "testOrm/testorm1.html"
 }
