@@ -10,7 +10,7 @@ import (
 
 type ArticleController struct {
 	beego.Controller
-}
+}9083722608
 
 func (a *ArticleController) Get() {
 	orm := orm.NewOrm()
