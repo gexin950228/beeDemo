@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Article</title>
+</head>
+<body>
+    <table style="width:100%; border: 1px solid black;">
+        <thread style="width:100%; border: 1px solid black;">
+            <th>文章标题</th>
+            <th>文章作者</th>
+            <th>文章评价</th>
+        </thread>
+        <tr style="background-color: lightskyblue; border: 1px solid black;">
+            {{ if .article.Title }}
+            <td>{{ .article.Title }}</td>
+            <td>{{ .article.Author }}</td>
+            <td>{{ .article.Desc }}</td>
+            <td>修改</td> <td>删除</td>
+            {{ end }}
+        </tr>
+    </table>
+</body>
+</html>

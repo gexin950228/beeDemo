@@ -2,7 +2,6 @@ package OrmTest
 
 import (
 	"beeDemo/utils"
-	"errors"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
@@ -14,7 +13,7 @@ type TestOrmController struct {
 }
 
 type User struct {
-	Id            int       `orm:"pk;auto"`
+	Id            int       `orm:"pk"` // 这里不能加auto，加auto不能InsertOrUpdate，执行InsertOrUpdate只会一直新增
 	Username      string    `orm:"size(500)"`
 	Address       string    `orm:"size(500)"`
 	LastLoginTime time.Time `orm:"auto_now_add;type(datetime)";column(last_login_time)`
@@ -35,6 +34,7 @@ func init() {
 }
 
 func (t *TestOrmController) Get() {
+	orm.Debug = true
 	o := orm.NewOrm()
 
 	//插入单条数据
@@ -89,24 +89,55 @@ func (t *TestOrmController) Get() {
 	//}
 
 	// Update
-	user := User{Id: 1, Username: "葛新"}
-	err := o.Read(&user)
+	//user := User{Id: 1}
+	//err := o.Read(&user)
+	//if err != nil {
+	//	if errors.Is(err, orm.ErrNoRows) {
+	//		fmt.Printf("error: %v\n", err.Error())
+	//	}
+	//} else if errors.Is(err, orm.ErrNoRows) {
+	//	fmt.Printf("error: %v\n", err.Error())
+	//} else {
+	//	user.Username = "SmallSun"
+	//	user.Address = "湖南省湘潭市"
+	//	user.RedirectUri = "/hehe"
+	//	user.LastLoginTime = time.Now()
+	//	update, err := o.Update(&user, "Username")
+	//	if err != nil {
+	//		fmt.Println(update, err)
+	//		return
+	//	}
+	//}
+
+	// Delete
+	//user := User{Id: 6}
+	//err := o.Read(&user)
+	//if err != nil {
+	//	if errors.Is(err, orm.ErrNoRows) {
+	//		fmt.Printf("没有id为 %v的记录\n", user.Id)
+	//	} else {
+	//		fmt.Printf("查询出错，错误为: %s\n", err.Error())
+	//	}
+	//} else {
+	//	_, err := o.Delete(&user)
+	//	if err != nil {
+	//		utils.LogToFile("WARN", err.Error())
+	//	} else {
+	//		utils.LogToFile("Info", fmt.Sprintf("删除了名字为%s的记录", user.Username))
+	//	}
+	//}
+
+	// InsertOrUpdate
+	user := User{Id: 1, Username: "葛新", Address: "湖南省湘乡市", LastLoginTime: time.Now(), RedirectUri: "/hello", Password: "Gexin..950228"}
+	updateId, err := o.InsertOrUpdate(&user, "Id")
+
 	if err != nil {
-		if errors.Is(err, orm.ErrNoRows) {
-			fmt.Printf("error: %v\n", err.Error())
-		}
-	} else if errors.Is(err, orm.ErrNoRows) {
-		fmt.Printf("error: %v\n", err.Error())
+		utils.LogToFile("Error", fmt.Sprintf("Id为%d数据修改失败，错误信息为%s", updateId, err.Error()))
+		return
 	} else {
-		user.Username = "葛新"
-		user.Address = "湖南省湘潭市"
-		user.RedirectUri = "/hehe"
-		user.LastLoginTime = time.Now()
-		update, err := o.Update(&user)
-		if err != nil {
-			fmt.Println(update, err)
-			return
-		}
+		statusString := fmt.Sprintf("Id为%d的用户信息更新成功", updateId)
+		fmt.Println(statusString)
+		utils.LogToFile("Info", statusString)
 	}
 	t.TplName = "testOrm/testorm1.html"
 }
