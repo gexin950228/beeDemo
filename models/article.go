@@ -7,9 +7,9 @@ import (
 
 type Article struct {
 	Id     int    `json:"id" orm:"id:pk";column(id)`
-	Title  string `json:"title" orm:"column(title)""`
-	Author string `json:"author" orm:";column(author)""`
-	Desc   string `json:"desc" orm:"column(desc)""`
+	Title  string `form:"title" json:"title" orm:"column(title)""`
+	Author string `form:"author" json:"author" orm:";column(author)""`
+	Desc   string `json:"desc" form:"desc" orm:"column(desc)""`
 }
 
 func init() {

@@ -10,20 +10,28 @@ import (
 
 type ArticleController struct {
 	beego.Controller
-}9083722608
+}
 
 func (a *ArticleController) Get() {
 	orm := orm.NewOrm()
-	article := models.Article{Id: 1}
-	err := orm.Read(&article)
+	var articles []models.Article
+	qs := orm.QueryTable(new(models.Article))
+	_, err := qs.All(&articles)
 	if err != nil {
 		utils.LogToFile("Error", fmt.Sprintf("read article err: %s", err.Error()))
 		a.TplName = "index/error.html"
 	} else {
-		a.Data["article"] = article
+		//fmt.Println(all)
+		//fmt.Printf("%v, %T", articles, articles)
+		//data := map[string]interface{}{
+		//	"Code": "200",
+		//	"Data": articles,
+		//}
+		//a.Data["json"] = data
+		//a.ServeJSON()
+		a.Data["articles"] = articles
 		a.TplName = "article.html"
 	}
-
 }
 
 func (a *ArticleController) Post() {
@@ -38,4 +46,29 @@ func (a *ArticleController) Post() {
 	data := map[string]string{"title": title, "author": author, "desc": desc}
 	a.Data["json"] = data
 	a.ServeJSON()
+}
+
+type AddArticle struct {
+	beego.Controller
+}
+
+func (a *AddArticle) Get() {
+	a.TplName = "addArticle.html"
+}
+
+func (a *AddArticle) Post() {
+	var article models.Article
+	article.Title = a.GetString("title")
+	article.Desc = a.GetString("desc")
+	article.Author = a.GetString("author")
+	//fmt.Println(article)
+	orm := orm.NewOrm()
+	insert, err := orm.Insert(&article)
+	if err != nil {
+		return
+	} else {
+		fmt.Println("Insert id:", insert)
+	}
+
+	a.Redirect("/article", 302)
 }

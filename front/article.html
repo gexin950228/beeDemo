@@ -3,22 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title>Article</title>
+    <script src="../static/js/jquery.min.js"></script>
 </head>
+<style>
+    td {
+        text-align: center;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        text-align: center;
+    }
+    th {
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        text-align: center;
+    }
+</style>
 <body>
-    <table style="width:100%; border: 1px solid black;">
-        <thread style="width:100%; border: 1px solid black;">
+<a href="/addArticle">添加文章</a>
+    <table style="width:100%; border: 5px solid black;place-content: center;margin: auto; border-collapse: collapse;">
+        <thread style="width:100%; border-bottom: 1px solid black;">
+            <th style="display: none">文章Id</th>
             <th>文章标题</th>
             <th>文章作者</th>
-            <th>文章评价</th>
+            <th style="width: 80%">文章评价</th>
+            <th>修改</th>
+            <th>删除</th>
         </thread>
-        <tr style="background-color: lightskyblue; border: 1px solid black;">
-            {{ if .article.Title }}
-            <td>{{ .article.Title }}</td>
-            <td>{{ .article.Author }}</td>
-            <td>{{ .article.Desc }}</td>
-            <td>修改</td> <td>删除</td>
-            {{ end }}
-        </tr>
+        {{ range $article := .articles }}
+            <tr style="border-bottom: 1px solid black; margin: 2px; align-items: center;" >
+                {{ if $article.Title }}
+                    <td style="display: none" id="{{ $article.Id }}" class="articleId">{{ $article.Id }}</td>
+                    <td>{{ $article.Title }}</td>
+                    <td>{{ $article.Author }}</td>
+                    <td style="text-align: left">{{ $article.Desc }}</td>
+                    <td>
+                        <button name="modify" classId="btnModify" id="{{ $article.Id }}">修改</button>
+                    </td>
+                    <td>
+                        <button name="delete" id="delete" classId="btnDelete">删除</button>
+                    </td>
+                {{ end }}
+            </tr>
+        {{ end }}
     </table>
 </body>
+
+<script>
+    let btnModifys = document.getElementsByClassName('articleId');
+    btnModifys[0].addEventListener('click', function () {
+        let articleId = $(this).attr('id');
+        console.log(articleId);
+    };
+
+    let deleteBtn = document.getElementById('delete');
+
+</script>
 </html>
