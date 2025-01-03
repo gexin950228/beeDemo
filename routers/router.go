@@ -37,4 +37,5 @@ func init() {
 	beego.Router("/addArticle", &OrmTest.AddArticleController{})
 	beego.Router("/update/?:id", &OrmTest.UpdateArticleController{})
 	beego.Router("/delete/?:id", &OrmTest.DeleteArticleController{})
+	beego.Router("/orm3/", &OrmTest.ComplexQueryController{})
 }
