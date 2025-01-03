@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"beeDemo/utils"
 	"fmt"
 
 	"github.com/astaxie/beego"
@@ -30,15 +31,14 @@ func (f *FlashController) Get() {
 	flash := beego.ReadFromRequest(&f.Controller)
 	err := flash.Data["error"]
 	not := flash.Data["notice"]
-	fmt.Println(err)
+	utils.LogToFile("Error", fmt.Sprintf("flash错误信息: %v", err))
 	if len(err) != 0 {
 		f.TplName = "error.html"
-		fmt.Println("前端获取到没有用户名")
+		utils.LogToFile("Error", "flash提交出错, 前端获取到没有用户名")
 	} else if len(not) != 0 {
-		fmt.Println("前端获取到密码不对")
+		utils.LogToFile("Error", "flash提交出错, 前端获取到密码不对")
 		f.TplName = "notice.html"
 	} else {
-		fmt.Println("起始位置")
 		f.TplName = "flash.html"
 	}
 }
@@ -46,10 +46,8 @@ func (f *FlashController) Get() {
 func (f *FlashController) Post() {
 	//  初始化flash
 	flash := beego.NewFlash()
-	fmt.Println("=================================================")
 	name := f.Input().Get("name")
 	age := f.Input().Get("age")
-	fmt.Printf("%v, %v\n", name, age)
 	if name == "" {
 		flash.Error("用户名不能为空")
 		flash.Store(&f.Controller)

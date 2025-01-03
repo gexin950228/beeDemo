@@ -19,8 +19,6 @@ func (u User) TableName() string {
 
 func init() {
 	mysqlConn := utils.LoadMysqlConfig()
-	fmt.Println(mysqlConn)
-	fmt.Println(mysqlConn)
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	dst := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4", mysqlConn.User, mysqlConn.Password, mysqlConn.Host, mysqlConn.Port, mysqlConn.Database)
 	err := orm.RegisterDataBase("default", "mysql", dst)

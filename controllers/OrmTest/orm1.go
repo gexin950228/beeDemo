@@ -136,7 +136,7 @@ func (t *TestOrmController) Get() {
 		return
 	} else {
 		statusString := fmt.Sprintf("Id为%d的用户信息更新成功", updateId)
-		fmt.Println(statusString)
+		//fmt.Println(statusString)
 		utils.LogToFile("Info", statusString)
 	}
 	t.TplName = "testOrm/testorm1.html"

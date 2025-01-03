@@ -4,7 +4,6 @@ import (
 	"beeDemo/controllers"
 	_ "beeDemo/routers"
 	"beeDemo/utils"
-	"fmt"
 	"github.com/astaxie/beego"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -20,8 +19,8 @@ func main() {
 	// 全局过滤器
 	//beego.InsertFilter("/*", beego.BeforeRouter, controllers.FilterUser)
 
-	redisConn := utils.LoadRedisConfig()
-	fmt.Println(redisConn)
+	// redisConn := utils.LoadRedisConfig()
+	// fmt.Println(redisConn)
 
 	// 创建通道
 	//ch1 := make(chan string)

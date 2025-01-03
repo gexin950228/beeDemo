@@ -80,9 +80,9 @@ func (a *AddArticleController) Post() {
 		validateError.Code = 0
 		validateError.ErrorMsg = []string{}
 		for _, err := range valid.Errors {
-			fmt.Println(fmt.Sprintf("%s校验出错，validation error: %s", err.Key, err.Error()))
+			//fmt.Println(fmt.Sprintf("%s校验出错，validation error: %s", err.Key, err.Error()))
 			validateError.ErrorMsg = append(validateError.ErrorMsg, err.Key+err.Message)
-			fmt.Println(validateError.ErrorMsg)
+			//fmt.Println(validateError.ErrorMsg)
 			utils.LogToFile("Error", fmt.Sprintf("%s校验错误，错误信息: %v", err.Name, err.Error()))
 			a.Data["json"] = validateError
 			a.ServeJSON()
@@ -92,11 +92,9 @@ func (a *AddArticleController) Post() {
 	}
 	//fmt.Println(article)
 	orm := orm.NewOrm()
-	insert, err := orm.Insert(&article)
+	_, err := orm.Insert(&article)
 	if err != nil {
 		return
-	} else {
-		fmt.Println("Insert id:", insert)
 	}
 
 	a.Redirect("/article", 302)
@@ -123,7 +121,7 @@ func (u *UpdateArticleController) Post() {
 	article.Id, _ = strconv.Atoi(id)
 	err := u.ParseForm(&article)
 	if err != nil {
-		fmt.Printf("解析表单数据出错： %s\n", err.Error())
+		utils.LogToFile("Error", fmt.Sprintf("解析表单数据出错： %s\n", err.Error()))
 		utils.LogToFile("Error", fmt.Sprintf("parse article err: %s", err.Error()))
 		return
 	}
@@ -143,12 +141,12 @@ func (u *UpdateArticleController) Delete() {
 	var article models.Article
 	id := u.GetString("id")
 	article.Id, _ = strconv.Atoi(id)
-	fmt.Printf("删除的文章的id是： %v\n", article.Id)
+	//fmt.Printf("删除的文章的id是： %v\n", article.Id)
 	orm := orm.NewOrm()
 	err := u.ParseForm(&article)
 	if err != nil {
 		utils.LogToFile("Error", fmt.Sprintf("parse article err: %s", err.Error()))
-		fmt.Printf("删除文章出错,错误信息为: %s\n", err.Error())
+		//fmt.Printf("删除文章出错,错误信息为: %s\n", err.Error())
 	}
 	article.IsDeleted = 1
 	_, err = orm.Update(&article)
@@ -182,7 +180,7 @@ func (d *DeleteArticleController) Post() {
 	err := d.ParseForm(&article)
 	if err != nil {
 		utils.LogToFile("Error", fmt.Sprintf("parse article err: %s", err.Error()))
-		fmt.Printf("删除文章出错,错误信息为: %s\n", err.Error())
+		//fmt.Printf("删除文章出错,错误信息为: %s\n", err.Error())
 	}
 	article.IsDeleted = 1
 	_, err = orm.Update(&article)

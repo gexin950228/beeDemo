@@ -111,11 +111,11 @@ func (l *LoginController) Post() {
 		utils.LogToFile("Info", "用户登录成功")
 		l.SetSession("loginUser", loginData.Username)
 		l.SetSecureCookie("loginUser", loginData.Username, "", 30, redisConn)
-		fmt.Println("登录成功")
+		//fmt.Println("登录成功")
 		l.Data["json"] = data
 		l.ServeJSON()
 	} else {
-		fmt.Println("登录失败")
+		//fmt.Println("登录失败")
 		data := map[string]string{"code": "400", "msg": "fail", "redirectUri": loginData.RedirectUri}
 		l.Data["json"] = data
 		utils.LogToFile("Info", "用户登录出错")

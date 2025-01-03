@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"beeDemo/utils"
 	"encoding/json"
 	"fmt"
 
@@ -52,7 +53,7 @@ func (p *ParameterController) Post() {
 	user := User{}
 	error := json.Unmarshal(body, &user)
 	if error != nil {
-		fmt.Printf("解析json数据失败, 错误： %v\n", error.Error())
+		utils.LogToFile("Error", fmt.Sprintf("解析json数据失败, 错误： %v\n", error.Error()))
 	}
 	// fmt.Printf("username: %v\n", user.Name)
 	// fmt.Printf("user: %v\n", user)

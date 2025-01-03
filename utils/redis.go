@@ -22,7 +22,7 @@ func LoadRedisConfig() RedisConn {
 	cfgFile := path.Join(pwd, "conf/", "redis.yaml")
 	data, err := os.ReadFile(cfgFile)
 	if err != nil {
-		fmt.Printf("打开redis配置文件出粗: %s\n", err.Error())
+		LogToFile("Error", fmt.Sprintf("打开redis配置文件出粗: %s\n", err.Error()))
 	}
 	errUnmarshal := yaml.Unmarshal(data, &redisConfig)
 	if errUnmarshal != nil {
