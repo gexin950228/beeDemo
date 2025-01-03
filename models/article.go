@@ -6,10 +6,11 @@ import (
 )
 
 type Article struct {
-	Id     int    `json:"id" orm:"id:pk";column(id)`
-	Title  string `form:"title" json:"title" orm:"column(title)""`
-	Author string `form:"author" json:"author" orm:";column(author)""`
-	Desc   string `json:"desc" form:"desc" orm:"column(desc)""`
+	Id        int    `form:"id" json:"id" orm:"pk;auto;column(id)"`
+	Title     string `form:"title" json:"title" orm:"column(title)" valid:"Required"`
+	Author    string `form:"author" json:"author" orm:";column(author)" valid:"Required"`
+	Desc      string `json:"desc" form:"desc" orm:"column(desc)" valid:"Required"`
+	IsDeleted int    `form:"is_deleted" json:"is_deleted" orm:"column(is_deleted)"`
 }
 
 func init() {

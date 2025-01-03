@@ -34,5 +34,7 @@ func init() {
 	beego.Router("/tpl2", &controllers.Template2Controller{})
 	beego.Router("/orm1", &OrmTest.TestOrmController{})
 	beego.Router("/article", &OrmTest.ArticleController{})
-	beego.Router("/addArticle", &OrmTest.AddArticle{})
+	beego.Router("/addArticle", &OrmTest.AddArticleController{})
+	beego.Router("/update/?:id", &OrmTest.UpdateArticleController{})
+	beego.Router("/delete/?:id", &OrmTest.DeleteArticleController{})
 }

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改文章</title>
+</head>
+<body>
+<form action="/update" method="POST">
+    <input type="text" name="id" style="display: none" value="{{ .article.Id }}">
+    文章标题:<input type="text" id="title" name="title" value="{{ .article.Title }} "> <br>
+    文章作者:<input type="text" name="author" id="author" value="{{ .article.Author }} "> <br>
+    文章简介:<textarea  rows="10" cols="100"  name="desc" id="desc" >{{ .article.Desc }}</textarea><br>
+    <input type="submit" value="修改文章">
+</form>
+</body>
+</html>
