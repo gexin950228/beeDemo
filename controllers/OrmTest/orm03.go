@@ -14,10 +14,11 @@ type ComplexQueryController struct {
 func (c *ComplexQueryController) Get() {
 	orm := orm.NewOrm()
 	//orm.QueryTable("article")
-	article := models.Article{}
+	var article models.Article
+	var articles []models.Article
 	qs := orm.QueryTable(article)
-	qs.Filter("id__exact", "2").One(&article) // 等于
-
-	fmt.Println(article)
+	//qs.Filter("id__exact", "2").One(&article) // 等于,大小写敏感
+	qs.Filter("title__iexact", "kubernetes in action").All(&articles) // 大小写不敏感
+	fmt.Println(articles)
 	c.TplName = "complexQuery.html"
 }
