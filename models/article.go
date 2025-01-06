@@ -11,10 +11,12 @@ type Article struct {
 	Author    string `form:"author" json:"author" orm:";column(author)" valid:"Required"`
 	Desc      string `json:"desc" form:"desc" orm:"column(desc)" valid:"Required"`
 	IsDeleted int    `form:"is_deleted" json:"is_deleted" orm:"column(is_deleted)"`
+	ReadCount int64  `form:"read_count" json:"read_count" orm:"column(read_count)"`
 }
 
 func init() {
 	orm.RegisterModel(new(Article))
+	orm.Debug = true
 }
 
 func (a *Article) TableName() string {

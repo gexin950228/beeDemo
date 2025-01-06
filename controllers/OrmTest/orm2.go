@@ -112,6 +112,7 @@ func (u *UpdateArticleController) Get() {
 	orm := orm.NewOrm()
 	orm.Read(&article, "id")
 	u.Data["article"] = article
+	fmt.Println(article)
 	u.TplName = "updateArticle.html"
 }
 
@@ -119,21 +120,24 @@ func (u *UpdateArticleController) Post() {
 	var article models.Article
 	id := u.GetString("id")
 	article.Id, _ = strconv.Atoi(id)
-	err := u.ParseForm(&article)
-	if err != nil {
-		utils.LogToFile("Error", fmt.Sprintf("解析表单数据出错： %s\n", err.Error()))
-		utils.LogToFile("Error", fmt.Sprintf("parse article err: %s", err.Error()))
-		return
-	}
+	readCount := u.GetString("read_count")
+	count, _ := strconv.ParseInt(readCount, 10, 64)
+	article.ReadCount = count
+	article.Desc = u.GetString("desc")
+	article.Author = u.GetString("auth")
+	article.Title = u.GetString("title")
+	article.Author = u.GetString("author")
+	//err := u.ParseForm(&article)
+
 	orm := orm.NewOrm()
-	_, err = orm.Update(&article)
+	_, err := orm.Update(&article)
 	if err != nil {
 		utils.LogToFile("Error", fmt.Sprintf("update article err: %s", err.Error()))
+		errResponse := map[string]string{"code": "error2", "error": fmt.Sprintf("提交数据错误，错误信息为：%s", err)}
+		u.Data["json"] = errResponse
+		u.ServeJSON()
 	}
 	err = orm.Commit()
-	if err != nil {
-		utils.LogToFile("Error", fmt.Sprintf("update article err: %s", err.Error()))
-	}
 	u.Redirect("/article", 302)
 }
 
@@ -144,14 +148,19 @@ func (u *UpdateArticleController) Delete() {
 	//fmt.Printf("删除的文章的id是： %v\n", article.Id)
 	orm := orm.NewOrm()
 	err := u.ParseForm(&article)
+	errResponse := map[string]string{"code": "400", "error": fmt.Sprintf("提交数据错误，错误信息为：%s", err)}
 	if err != nil {
 		utils.LogToFile("Error", fmt.Sprintf("parse article err: %s", err.Error()))
 		//fmt.Printf("删除文章出错,错误信息为: %s\n", err.Error())
+		u.Data["json"] = errResponse
+		u.ServeJSON()
 	}
 	article.IsDeleted = 1
 	_, err = orm.Update(&article)
 	if err != nil {
 		utils.LogToFile("Error", fmt.Sprintf("update article err: %s", err.Error()))
+		u.Data["json"] = errResponse
+		u.ServeJSON()
 	}
 	u.Redirect("/article", 302)
 }
