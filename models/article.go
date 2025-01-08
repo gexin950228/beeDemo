@@ -12,6 +12,7 @@ type Article struct {
 	Desc      string `json:"desc" form:"desc" orm:"column(desc)" valid:"Required"`
 	IsDeleted int    `form:"is_deleted" json:"is_deleted" orm:"column(is_deleted)"`
 	ReadCount int64  `form:"read_count" json:"read_count" orm:"column(read_count)"`
+	Classify  string `form:"classify" json:"classify" orm:"column(classify)"`
 }
 
 func init() {

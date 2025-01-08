@@ -12,7 +12,6 @@
         border-bottom: 1px solid black;
         border-left: 1px solid black;
         border-right: 1px solid black;
-        text-align: center;
     }
     th {
         border-right: 1px solid black;
@@ -29,8 +28,9 @@
             <th style="display: none">文章Id</th>
             <th>文章标题</th>
             <th>文章作者</th>
-            <th style="width: 70%">文章评价</th>
+            <th style="width: auto">文章评价</th>
             <th>阅读次数</th>
+            <th>文章类别</th>
             <th>修改</th>
             <th>删除</th>
         </thread>
@@ -43,6 +43,7 @@
                     <td class="articleDesc" style="text-align: left">{{ $article.Desc }}</td>
                     <td class="readCount" style="text-align: left">{{ $article.ReadCount }}</td>
                     <td class="articleIsDeleted" style="display: none"> {{ $article.IsDeleted }}</td>
+                    <td class="classify" style="text-align: left">{{ $article.Classify }}</td>
                     <td>
                         <button name="modify" id="{{ $article.Id }}"><a href="/update?id={{ $article.Id }}">修改</a></button>
                     </td>
