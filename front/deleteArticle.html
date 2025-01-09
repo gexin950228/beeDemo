@@ -7,11 +7,11 @@
 <body>
 <form action="/delete" method="POST">
     <input type="text" name="id" style="display:none;" value="{{ .article.Id }}" id="id">
-    <input type="text" name="" style="display:none;" value="{{ .article.IsDeleted }}" name="is_deleted">
+    <input type="text" name="id_deleted" style="display:none;" value="{{ .article.IsDeleted }}" name="is_deleted">
     文章标题:<input type="text" id="title" name="title" value="{{ .article.Title }} "> <br>
     文章作者:<input type="text" name="author" id="author" value="{{ .article.Author }} "> <br>
     阅读次数:<input type="text" name="read_count" id="read_count" value="{{ .article.ReadCount }} "> <br>
-    文章简介:<textarea  rows="10" cols="100"  name="desc" id="desc" >{{ .article.Desc }}</textarea><br>
+    文章简介:<textarea  rows="10" cols="100"  name="description" id="description" >{{ .article.Description }}</textarea><br>
     <input type="submit" value="确认删除">
 </form>
 </body>

@@ -40,7 +40,7 @@
                     <td style="display: none" id="{{ $article.Id }}" class="articleId" name="id">{{ $article.Id }}</td>
                     <td class="articleTitle">{{ $article.Title }}</td>
                     <td class="articleAuthor">{{ $article.Author }}</td>
-                    <td class="articleDesc" style="text-align: left">{{ $article.Desc }}</td>
+                    <td class="articleDesc" style="text-align: left">{{ $article.Description }}</td>
                     <td class="readCount" style="text-align: left">{{ $article.ReadCount }}</td>
                     <td class="articleIsDeleted" style="display: none"> {{ $article.IsDeleted }}</td>
                     <td class="classify" style="text-align: left">{{ $article.Classify }}</td>
@@ -59,7 +59,6 @@
 <script>
     function getArticleMessage() {
         alert("haha")
-        targetTr =
     }
 </script>
 </html>

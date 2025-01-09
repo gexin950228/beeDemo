@@ -44,10 +44,10 @@ func (a *ArticleController) Post() {
 	article.Title = title
 	author := a.GetString("author")
 	article.Author = author
-	desc := a.GetString("desc")
-	article.Desc = desc
+	description := a.GetString("description")
+	article.Description = description
 	fmt.Println(article)
-	data := map[string]string{"title": title, "author": author, "desc": desc}
+	data := map[string]string{"title": title, "author": author, "description": description}
 	a.Data["json"] = data
 	a.ServeJSON()
 }
@@ -124,7 +124,7 @@ func (u *UpdateArticleController) Post() {
 	readCount := strings.TrimSpace(u.GetString("read_count"))
 	count, _ := strconv.ParseInt(readCount, 10, 64)
 	article.ReadCount = count
-	article.Desc = u.GetString("desc")
+	article.Description = u.GetString("desc")
 	article.Author = u.GetString("auth")
 	article.Title = u.GetString("title")
 	article.Author = u.GetString("author")
