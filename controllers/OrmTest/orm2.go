@@ -9,6 +9,7 @@ import (
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/validation"
 	"strconv"
+	"strings"
 )
 
 type ArticleController struct {
@@ -120,13 +121,14 @@ func (u *UpdateArticleController) Post() {
 	var article models.Article
 	id := u.GetString("id")
 	article.Id, _ = strconv.Atoi(id)
-	readCount := u.GetString("read_count")
+	readCount := strings.TrimSpace(u.GetString("read_count"))
 	count, _ := strconv.ParseInt(readCount, 10, 64)
 	article.ReadCount = count
 	article.Desc = u.GetString("desc")
 	article.Author = u.GetString("auth")
 	article.Title = u.GetString("title")
 	article.Author = u.GetString("author")
+	article.Classify = u.GetString("classify")
 	//err := u.ParseForm(&article)
 
 	orm := orm.NewOrm()
@@ -171,28 +173,31 @@ type DeleteArticleController struct {
 
 func (d *DeleteArticleController) Get() {
 	id := d.GetString("id")
-	idDelete, error := strconv.Atoi(id)
-	if error != nil {
-		utils.LogToFile("Error", fmt.Sprintf("parse id err: %s", error.Error()))
+	idDelete, err := strconv.Atoi(id)
+	if err != nil {
+		utils.LogToFile("Error", fmt.Sprintf("parse id err: %s", err.Error()))
 	}
 	var article models.Article
 	article.Id = idDelete
-	orm := orm.NewOrm()
-	orm.Read(&article, "id")
+	o := orm.NewOrm()
+	err = o.Read(&article, "id")
+	if err != nil {
+		utils.LogToFile("Error", fmt.Sprintf("read article err: %s", err.Error()))
+	}
 	d.Data["article"] = article
 	d.TplName = "deleteArticle.html"
 }
 
 func (d *DeleteArticleController) Post() {
 	var article models.Article
-	var orm = orm.NewOrm()
+	var o = orm.NewOrm()
 	err := d.ParseForm(&article)
 	if err != nil {
 		utils.LogToFile("Error", fmt.Sprintf("parse article err: %s", err.Error()))
 		//fmt.Printf("删除文章出错,错误信息为: %s\n", err.Error())
 	}
 	article.IsDeleted = 1
-	_, err = orm.Update(&article)
+	_, err = o.Update(&article)
 	if err != nil {
 		utils.LogToFile("Error", fmt.Sprintf("update article err: %s", err.Error()))
 	}

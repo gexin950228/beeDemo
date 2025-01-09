@@ -10,7 +10,7 @@
     文章标题:<input type="text" id="title" name="title" value="{{ .article.Title }} "> <br>
     文章作者:<input type="text" name="author" id="author" value="{{ .article.Author }} "> <br>
     阅读次数:<input type="text" name="read_count" id="read_count" value="{{ .article.ReadCount }} "> <br>
-    文章类别: <input type="text" name="classify" id="classify" value="{{ .article.Classify }}"> <br>
+    文章类别: <input type="text" name="classify" id="classify" value="{{ .article.Classify }}"><br>
     文章简介:<textarea  rows="10" cols="100"  name="desc" id="desc" >{{ .article.Desc }}</textarea><br>
     <input type="submit" value="修改文章">
 </form>
