@@ -64,17 +64,17 @@ type SearchRedisResult struct {
 	RedisResult string
 }
 
-func SearchRedis(username string) SearchRedisResult {
+func SearchRedis(key string) SearchRedisResult {
 	redisConn := LoadRedisConfig()
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     redisConn.RedisHost + ":" + redisConn.RedisPort,
 		Password: redisConn.RedisPasswd,
 		DB:       0,
 	})
-	verifyCode, err := rdb.Get(context.Background(), username).Result()
+	verifyCode, err := rdb.Get(context.Background(), key).Result()
 	var searchRedisResult SearchRedisResult
 	if err != nil {
-		LogToFile("Error", fmt.Sprintf("用户%s redis查询验证码失败，错误L %s", username, err.Error()))
+		LogToFile("Error", fmt.Sprintf("redis查询验证码失败，错误信息：%s", err.Error()))
 		searchRedisResult = SearchRedisResult{Code: 0, RedisResult: ""}
 	} else {
 		searchRedisResult = SearchRedisResult{Code: 1, RedisResult: verifyCode}

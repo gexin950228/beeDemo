@@ -1,4 +1,4 @@
-package controllers
+package User
 
 import (
 	"beeDemo/utils"
@@ -19,13 +19,13 @@ type SendVerifyCodeResult struct {
 	Msg  string `json:"msg" gorm:"msg"`
 }
 
-func SendVerifyCode(verifyCode string) SendVerifyCodeResult {
+func SendVerifyCode(username, verifyCode, email, verifyCodeType string) SendVerifyCodeResult {
 	var result SendVerifyCodeResult
 	mailContext := utils.MailContext{
 		From:        "861439031@qq.com",
-		To:          "gexin17812126257@163.com",
+		To:          email,
 		Subject:     "[beedemo登录验证码]",
-		Body:        fmt.Sprintf("<h1>验证码是： %s，过期时间120秒。</h1>", verifyCode),
+		Body:        fmt.Sprintf("<h1>%s的%s验证码是： %s，过期时间120秒。</h1>", username, verifyCodeType, verifyCode),
 		ContextType: "text/html",
 	}
 	utils.SendMail(mailContext)
@@ -37,8 +37,9 @@ type SendVerifyCodeController struct {
 }
 
 type VerifyData struct {
-	Username string `json:"username"`
-	Mail     string `json:"mail"`
+	Username       string `form:"username" json:"username"`
+	Mail           string `json:"email" form:"email"`
+	VerifyCodeType string `json:"verify_code_type" form:"verify_code_type"`
 }
 
 func (s *SendVerifyCodeController) Prepare() {
@@ -50,16 +51,17 @@ func (s *SendVerifyCodeController) Post() {
 	errUrmarshal := json.Unmarshal(s.Ctx.Input.RequestBody, &data)
 	if errUrmarshal != nil {
 		utils.LogToFile("Error", errUrmarshal.Error())
+		fmt.Println("Error:", errUrmarshal.Error())
 		sendVerifyCodeResult = SendVerifyCodeResult{Code: 0, Msg: "发送邮箱验证码出错"}
 	} else {
-		sendVerifyCodeResult = SendVerifyCodeResult{Code: 0, Msg: "发送邮箱验证码出错"}
+		fmt.Println(data)
 	}
 	rand.Seed(time.Now().UnixNano())
 	verifyCode := strconv.Itoa(rand.Intn(999999))
 	fmt.Println(verifyCode)
-	sendVerifyCodeResult = SendVerifyCode(verifyCode)
+	sendVerifyCodeResult = SendVerifyCode(data.Username, verifyCode, data.Mail, data.VerifyCodeType)
 	redisInfo := utils.RedisInfo{
-		Key:        data.Username,
+		Key:        fmt.Sprintf("%s_%s_code", data.Mail, data.VerifyCodeType),
 		Value:      verifyCode,
 		ExpireTime: 120,
 	}
@@ -80,14 +82,15 @@ func (s *SendVerifyCodeController) Post() {
 func (l *LoginController) Get() {
 	redirectUri := l.GetString("redirectUri")
 	l.Data["redirectUri"] = redirectUri
-	l.TplName = "login.html"
+	l.TplName = "user/login.html"
 }
 
 type LoginUser struct {
-	Username    string `json:"username"`
-	Password    string `json:"password"`
-	RedirectUri string `json:"redirectUri"`
-	VerifyCode  string `json:"verifyCode"`
+	Username       string `json:"username"`
+	Password       string `json:"password"`
+	RedirectUri    string `json:"redirectUri"`
+	VerifyCode     string `json:"verifyCode"`
+	VerifyCodeType string `json:"verify_code_type"`
 }
 
 func (l *LoginController) Post() {
@@ -97,7 +100,8 @@ func (l *LoginController) Post() {
 		utils.LogToFile("Error", "解析用户数据出错")
 		utils.LogToFile("Error", err.Error())
 	}
-	searchRedisResult := utils.SearchRedis(loginData.Username)
+	redisKey := fmt.Sprintf("%s%s", loginData.Username, loginData.VerifyCodeType)
+	searchRedisResult := utils.SearchRedis(redisKey)
 	if searchRedisResult.Code != 1 {
 		utils.LogToFile("Error", fmt.Sprintf("%s查询验证码失败", loginData.Username))
 	}

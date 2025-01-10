@@ -31,9 +31,9 @@
             btnGetVerifyCode.disabled = true;
             let username = document.getElementById('username').value;
             let mail = document.getElementById('mail').value;
-            let requestData = JSON.stringify({ "username": username, "mail": mail });
+            let requestData = JSON.stringify({ "username": username, "mail": mail, "verify_code_type": "Login"});
             $.ajax({
-                url: '/loginVerifyCode',
+                url: '/verifyCode',
                 method: 'post',
                 data: requestData,
                 success: function (data) {
@@ -54,6 +54,7 @@
                 password: password,
                 redirectUri: redirectUri,
                 verifyCode: verifyCode,
+                verify_code_type: "Login",
             }
             console.log(loginData);
             var UserData = JSON.stringify(loginData);

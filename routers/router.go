@@ -3,6 +3,7 @@ package routers
 import (
 	"beeDemo/controllers"
 	"beeDemo/controllers/OrmTest"
+	"beeDemo/controllers/User"
 
 	"github.com/astaxie/beego"
 )
@@ -26,8 +27,8 @@ func init() {
 	beego.Router("/xsrf", &controllers.TestXsrfController{})
 	beego.Router("/file1", &controllers.File1Controller{})
 	beego.Router("/file2", &controllers.FileAjaxController{})
-	beego.Router("/login/?:redirectUri", &controllers.LoginController{})
-	beego.Router("/loginVerifyCode", &controllers.SendVerifyCodeController{})
+	beego.Router("/login/?:redirectUri", &User.LoginController{})
+	beego.Router("/verifyCode", &User.SendVerifyCodeController{})
 	beego.Router("/validator", &controllers.ValicatorController{})
 	beego.Router("/abort", &controllers.AbortController{})
 	beego.Router("/tpl1", &controllers.TemplateController{})
@@ -41,4 +42,5 @@ func init() {
 	beego.Router("/orm4/", &OrmTest.Complex2QueryController{})
 	beego.Router("/native_sql/", &OrmTest.NativeSqlController{})
 	beego.Router("/query_article/", &OrmTest.QueryArticleController{})
+	beego.Router("/register", &User.RegisterController{})
 }

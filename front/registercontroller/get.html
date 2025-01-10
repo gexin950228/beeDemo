@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+  <script src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+  <h1>注册页面</h1>
+  <form action="">
+    <input type="text" placeholder="请输入用户名" name="username" id="username"> <br>
+    <input type="text" placeholder="请输入邮箱" name="email" id="email"> <br>
+    <input type="password" placeholder="请输入密码" name="password" id="password"> <br>
+    <input type="password" placeholder="请确认密码" name="repeat_password" id="repeat_password"> <br>
+    <input type="text" placeholder="请输入验证码" id="verify_code" name="verify_code"> &nbsp;&nbsp;
+    <input type="button" id="btnGetVerifyCode" value="获取验证码"> <br>
+    <input type="button" id="register" value="注册">
+  </form>
+
+  <script type="text/javascript">
+    var timer;
+
+    let btnGetVerifyCode = document.getElementById('btnGetVerifyCode');
+    btnGetVerifyCode.addEventListener('click', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        btnGetVerifyCode.disabled = false;
+      }, 120000);
+    });
+    btnGetVerifyCode.onclick = function (ev) {
+      let username = document.getElementById('username').value;
+      console.log(username)
+      let email = document.getElementById('email').value;
+      btnGetVerifyCode.disabled = true;
+      let requestData = JSON.stringify({
+        "username": username,
+        "email": email,
+        "verify_code_type": "register"
+      });
+      $.ajax({
+        url: '/verifyCode',
+        method: 'post',
+        data: requestData,
+        success: function (data) {
+          alert(data["msg"]);
+        },
+        fail: function (data) {
+          alert(data["msg"]);
+        },
+      })
+    };
+    let regBtn = document.getElementById("register");
+    regBtn.onclick = function (ev) {
+      let username = document.getElementById('username').value;
+      let email = document.getElementById("email").value;
+      let password = document.getElementById("password").value;
+      let repeat_password = document.getElementById("repeat_password").value;
+      let verify_code = document.getElementById('verify_code').value;
+      let requestData = JSON.stringify({
+        "username": username,
+        "email": email,
+        "verify_code": verify_code,
+        "password": password,
+        "repeat_password": repeat_password});
+      $.ajax({
+        url: "/register",
+        method: "post",
+        data: requestData,
+        success: function (data) {
+          if (data["code"] !== 0) {
+            console.log(data["msg"]);
+          } else {
+            window.location.assign("http://localhost:8080/article")
+          }
+        },
+        fail: function (data) {
+          console.log(username+"注册失败")
+          alert(data["Msg"])
+        },
+      })
+    }
+
+  </script>
+</body>
+</html>

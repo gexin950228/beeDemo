@@ -30,7 +30,7 @@ func init() {
 	//orm.RegisterDriver("mysql", orm.DRMySQL)
 	//dst := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4", mysqlConn.User, mysqlConn.Password, mysqlConn.Host, mysqlConn.Port, mysqlConn.Database)
 	//orm.RegisterDataBase("default", "mysql", dst)
-	orm.RegisterModel(new(User))
+	//orm.RegisterModel(new(User))
 }
 
 func (t *TestOrmController) Get() {
