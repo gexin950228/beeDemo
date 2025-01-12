@@ -43,4 +43,5 @@ func init() {
 	beego.Router("/native_sql/", &OrmTest.NativeSqlController{})
 	beego.Router("/query_article/", &OrmTest.QueryArticleController{})
 	beego.Router("/register", &User.RegisterController{})
+	beego.Router("/orm5", &OrmTest.OrmInterfaceController{})
 }
