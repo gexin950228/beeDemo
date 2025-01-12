@@ -5,6 +5,7 @@ import (
 	_ "beeDemo/routers"
 	"beeDemo/utils"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -34,5 +35,6 @@ func main() {
 	//}
 	// 注册自定义错误信息
 	beego.ErrorController(&controllers.ErrorController{})
+	orm.RunCommand()
 	beego.Run()
 }
