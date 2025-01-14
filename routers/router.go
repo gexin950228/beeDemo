@@ -4,6 +4,7 @@ import (
 	"beeDemo/controllers"
 	"beeDemo/controllers/OrmTest"
 	"beeDemo/controllers/User"
+	"beeDemo/controllers/relationSql"
 
 	"github.com/astaxie/beego"
 )
@@ -44,4 +45,5 @@ func init() {
 	beego.Router("/query_article/", &OrmTest.QueryArticleController{})
 	beego.Router("/register", &User.RegisterController{})
 	beego.Router("/orm5", &OrmTest.OrmInterfaceController{})
+	beego.Router("/one_to_one", &relationSql.OneToOneController{})
 }

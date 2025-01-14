@@ -18,7 +18,7 @@ func main() {
 	beego.BConfig.WebConfig.XSRFExpire = 3600
 	beego.BConfig.WebConfig.Session.SessionOn = true
 	// 全局过滤器
-	//beego.InsertFilter("/*", beego.BeforeRouter, controllers.FilterUser)
+	// beego.InsertFilter("/*", beego.BeforeRouter, controllers.FilterUser)
 
 	// redisConn := utils.LoadRedisConfig()
 	// fmt.Println(redisConn)
