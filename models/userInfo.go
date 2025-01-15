@@ -7,7 +7,7 @@ import (
 
 type UserInfo struct {
 	//修改源码： cmd_utils.go的getColumnAddQuery()最后添加fi.description,;
-	Id                         int64     `gorm:"primary_key;AUTO_INCREMENT"`
+	Id                         int64     `orm:"primary_key;AUTO_INCREMENT"`
 	UserIcon                   string    `orm:"type:varchar(255);column(user_icon);null;description(头像)"`
 	Gender                     int       `orm:"column(gender);description(性别,男:1 女:2);default(1)"`
 	Vocation                   string    `orm:"column(vocation);size(50);description(职业)"`

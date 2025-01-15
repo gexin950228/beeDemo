@@ -47,4 +47,5 @@ func init() {
 	beego.Router("/orm5", &OrmTest.OrmInterfaceController{})
 	beego.Router("/one_to_one", &relationSql.OneToOneController{})
 	beego.Router("/one_to_many", &relationSql.OneToMany{})
+	beego.Router("/many_to_many", &relationSql.ManyToManyController{})
 }
