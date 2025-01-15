@@ -1,6 +1,8 @@
 package relationSql
 
 import (
+	"beeDemo/models"
+	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 )
@@ -76,10 +78,19 @@ func (c *OneToOneController) Get() {
 	//if err != nil {
 	//	return
 	//}
-	r1 := o.Raw("DELETE FROM person where id=?", 8)
-	_, err := r1.Exec()
+	//r1 := o.Raw("DELETE FROM person where id=?", 8)
+	//_, err := r1.Exec()
+	//if err != nil {
+	//	return
+	//}
+
+	var personProfile models.PersonProfile
+	pid := 1
+	qs1 := o.QueryTable("person_profile")
+	err := qs1.Filter("id__exact", pid).RelatedSel().One(&personProfile)
 	if err != nil {
 		return
 	}
+	fmt.Println(personProfile.Person.Name)
 	c.TplName = "relationSql/oneToOne.html"
 }

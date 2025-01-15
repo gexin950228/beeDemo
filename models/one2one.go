@@ -7,6 +7,7 @@ type Person struct {
 	Name          string         `orm:"column(name);size(255)"`
 	IdCardNumber  string         `orm:"column(id_card_number);size(20)"`
 	PersonProfile *PersonProfile `orm:"reverse(one)"`
+	ReportMany    []*ReportMany  `orm:"reverse(many)"`
 }
 
 func (p *Person) TableName() string {
