@@ -2,6 +2,7 @@ package relationSql
 
 import (
 	"beeDemo/models"
+	"beeDemo/utils"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
@@ -61,16 +62,14 @@ func (m *OneToMany) Get() {
 	//}
 	//fmt.Println(reports)
 
-	// 一直report差查询作者
+	// 已知report差查询作者
 	rid := 1
 	var person models.Person
 	qs := o.QueryTable("person")
 	err := qs.Filter("ReportMany__Id", rid).One(&person)
 	if err != nil {
-		fmt.Println("======================")
-		fmt.Println(err)
+		return
 	}
-	fmt.Println(person)
-
+	utils.LogToFile("INFO", fmt.Sprintf("person:%#v\r\n", person))
 	m.TplName = "one_to_many.html"
 }

@@ -12,10 +12,11 @@
     <form action="/login" method="post">
         <input type="text" name="username" id="username" placeholder="请输入用户名"> <br>
         <input type="password" name="password" id="password" placeholder="请输入密码"> <br>
-        <input type="text" name="mail" id="mail" placeholder="请输入邮箱"> <br>
+        <input type="text" name="email" id="email" placeholder="请输入邮箱"> <br>
         <input type="text" name="verifyCode" id="verifyCode" placeholder="请输入邮箱验证码"> <input type="button" id="btnGetVerifyCode" value="获取验证码">
         <input type="button" value="登录" id="btnLogin"> <br>
     </form>
+    <a href="/register">没有账号，去注册</a>
     <script type="text/javascript">
         let redirectUri = {{ .redirectUri }};
         var timer;
@@ -30,8 +31,9 @@
         btnGetVerifyCode.onclick = function (ev) {
             btnGetVerifyCode.disabled = true;
             let username = document.getElementById('username').value;
-            let mail = document.getElementById('mail').value;
-            let requestData = JSON.stringify({ "username": username, "mail": mail, "verify_code_type": "Login"});
+            let mail = document.getElementById('email').value;
+            let requestData = JSON.stringify({ "username": username, "email": mail, "verify_code_type": "Login"});
+            console.log(requestData)
             $.ajax({
                 url: '/verifyCode',
                 method: 'post',
@@ -46,12 +48,15 @@
         };
         let btnLogin = document.getElementById('btnLogin');
         btnLogin.onclick = function () {
+            alert(redirectUri);
             let username = document.getElementById('username').value;
             let password = document.getElementById('password').value;
             let verifyCode = document.getElementById('verifyCode').value;
+            let email = document.getElementById("email").value;
             let loginData = {
                 username: username,
                 password: password,
+                email: email,
                 redirectUri: redirectUri,
                 verifyCode: verifyCode,
                 verify_code_type: "Login",
@@ -63,7 +68,7 @@
                 type: 'post',
                 data: UserData,
                 success: function (data) {
-                    window.location.href = data["redirectUri"];
+                    window.location.href = "http://beego.demo.com"+data["redirectUri"]
                 },
                 fail: function (data) {
                     alert("登录验证失败");

@@ -3,11 +3,11 @@ package User
 import (
 	"beeDemo/models"
 	"beeDemo/utils"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
-	"golang.org/x/crypto/bcrypt"
 	"regexp"
 )
 
@@ -109,7 +109,8 @@ func (c *RegisterController) Post() {
 		saveRegisterUsers.Username = registerInfo.Username
 		saveRegisterUsers.Email = registerInfo.Email
 		passwordByte := []byte(registerInfo.Password)
-		hashedPassword, err := bcrypt.GenerateFromPassword(passwordByte, bcrypt.DefaultCost)
+		hashedPassword := base64.StdEncoding.EncodeToString(passwordByte)
+		fmt.Printf("加密后的密码:  %s\n", hashedPassword)
 		saveRegisterUsers.Password = string(hashedPassword)
 		_, err = o.Insert(&saveRegisterUsers)
 		if err != nil {

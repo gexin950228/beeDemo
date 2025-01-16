@@ -1,10 +1,14 @@
 package User
 
 import (
+	"beeDemo/models"
 	"beeDemo/utils"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
+	"github.com/dgrijalva/jwt-go"
 	"math/rand"
 	"strconv"
 	"time"
@@ -38,7 +42,7 @@ type SendVerifyCodeController struct {
 
 type VerifyData struct {
 	Username       string `form:"username" json:"username"`
-	Mail           string `json:"email" form:"email"`
+	Email          string `json:"email" form:"email"`
 	VerifyCodeType string `json:"verify_code_type" form:"verify_code_type"`
 }
 
@@ -51,23 +55,18 @@ func (s *SendVerifyCodeController) Post() {
 	errUrmarshal := json.Unmarshal(s.Ctx.Input.RequestBody, &data)
 	if errUrmarshal != nil {
 		utils.LogToFile("Error", errUrmarshal.Error())
-		fmt.Println("Error:", errUrmarshal.Error())
 		sendVerifyCodeResult = SendVerifyCodeResult{Code: 0, Msg: "发送邮箱验证码出错"}
-	} else {
-		fmt.Println(data)
 	}
 	rand.Seed(time.Now().UnixNano())
 	verifyCode := strconv.Itoa(rand.Intn(999999))
-	fmt.Println(verifyCode)
-	sendVerifyCodeResult = SendVerifyCode(data.Username, verifyCode, data.Mail, data.VerifyCodeType)
+	sendVerifyCodeResult = SendVerifyCode(data.Username, verifyCode, data.Email, data.VerifyCodeType)
 	redisInfo := utils.RedisInfo{
-		Key:        fmt.Sprintf("%s_%s_code", data.Mail, data.VerifyCodeType),
+		Key:        fmt.Sprintf("%s_%s_code", data.Email, data.VerifyCodeType),
 		Value:      verifyCode,
 		ExpireTime: 120,
 	}
 	redisConfig := utils.LoadRedisConfig()
 	saveResult := utils.SaveToRedis(redisConfig, redisInfo)
-	fmt.Println(saveResult)
 	if saveResult.Code != 1 {
 		sendVerifyCodeResult.Code = saveResult.Code
 		sendVerifyCodeResult.Msg = saveResult.Msg
@@ -81,6 +80,7 @@ func (s *SendVerifyCodeController) Post() {
 
 func (l *LoginController) Get() {
 	redirectUri := l.GetString("redirectUri")
+	fmt.Println("redirectUri:", redirectUri)
 	l.Data["redirectUri"] = redirectUri
 	l.TplName = "user/login.html"
 }
@@ -90,39 +90,61 @@ type LoginUser struct {
 	Password       string `json:"password"`
 	RedirectUri    string `json:"redirectUri"`
 	VerifyCode     string `json:"verifyCode"`
+	Email          string `json:"email" orm:"column(email)"`
 	VerifyCodeType string `json:"verify_code_type"`
+}
+
+type RepData struct {
+	Code string `json:"code"`
+	Msg  string `json:"msg"`
+	RedirectUri string `json:"redirectUri"`
+}
+
+type CustomClaims struct {
+	Email string `json:"email"`
+	jwt.StandardClaims
 }
 
 func (l *LoginController) Post() {
 	var loginData LoginUser
+	var userInfo models.SaveRegisterUser
 	err := json.Unmarshal(l.Ctx.Input.RequestBody, &loginData)
 	if err != nil {
 		utils.LogToFile("Error", "解析用户数据出错")
 		utils.LogToFile("Error", err.Error())
 	}
-	redisKey := fmt.Sprintf("%s%s", loginData.Username, loginData.VerifyCodeType)
+	fmt.Printf("redirectUri: %s\n", loginData.RedirectUri)
+	redisKey := fmt.Sprintf("%s_%s_code", loginData.Email, loginData.VerifyCodeType)
 	searchRedisResult := utils.SearchRedis(redisKey)
 	if searchRedisResult.Code != 1 {
 		utils.LogToFile("Error", fmt.Sprintf("%s查询验证码失败", loginData.Username))
 	}
-
-	if loginData.Username == "gexin" && loginData.Password == "123456" && loginData.VerifyCode == searchRedisResult.RedisResult {
-		redisConn := utils.LoadRedisConfig()
-		redisInfo := utils.RedisInfo{Key: loginData.Username + "loginStatus", Value: "Logined", ExpireTime: 86400}
-		utils.SaveToRedis(redisConn, redisInfo)
-		data := map[string]string{"code": "200", "msg": "success", "redirectUri": loginData.RedirectUri}
-		//l.Data["json"] = data
-		utils.LogToFile("Info", "用户登录成功")
-		l.SetSession("loginUser", loginData.Username)
-		l.SetSecureCookie("loginUser", loginData.Username, "", 30, redisConn)
-		//fmt.Println("登录成功")
-		l.Data["json"] = data
-		l.ServeJSON()
+	o := orm.NewOrm()
+	var repData RepData
+	err = o.QueryTable("save_register_users").Filter("email", loginData.Email).One(&userInfo)
+	if err != nil {
+		utils.LogToFile("Error", fmt.Sprintf("用户%s登陆失败，错误信息：%s", loginData.Username, err.Error()))
+		repData.Code = "1"
+		repData.Msg = err.Error()
 	} else {
-		//fmt.Println("登录失败")
-		data := map[string]string{"code": "400", "msg": "fail", "redirectUri": loginData.RedirectUri}
-		l.Data["json"] = data
-		utils.LogToFile("Info", "用户登录出错")
-		l.ServeJSON()
+		hashedPassword := base64.StdEncoding.EncodeToString([]byte(loginData.Password))
+		if hashedPassword != userInfo.Password {
+			repData.Code = "1"
+			repData.Msg = "密码校验出错"
+		} else {
+			repData.Code = "0"
+			repData.Msg = "用户名密码校验成功"
+			repData.RedirectUri = loginData.RedirectUri
+			l.SetSecureCookie("session_token", loginData.Email, userInfo.Password)
+			redisInfo := utils.RedisInfo{
+				Key:        fmt.Sprintf("%s_login", loginData.Email),
+				Value:      "true",
+				ExpireTime: 86400,
+			}
+			redisConn := utils.RedisConn{}
+			utils.SaveToRedis(redisConn, redisInfo)
+			l.Data["json"] = repData
+			l.ServeJSON()
+		}
 	}
 }
