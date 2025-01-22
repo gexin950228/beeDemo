@@ -4,7 +4,7 @@ import "github.com/astaxie/beego/orm"
 
 type Labels struct {
 	Id         int           `orm:"pk;auto"`
-	Name       string        `orm:"column(name)"`
+	Name       string        `orm:"column(name)" form:"label_name" json:"label_name"`
 	ReportMany []*ReportMany `orm:"rel(m2m)"` // 正向关系，rel(many)
 }
 

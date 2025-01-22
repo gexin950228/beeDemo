@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多对多添加标签</title>
+</head>
+<body>
+    <h1>修改标签</h1>
+    <form action="/report_add_label">
+        <input type="text" name="id" id="id" value="{{.report.Id}}"> <br>
+        <input type="text" name="title" id="title" value="{{ .report.Title }}"> <br>
+        <input type="text" id="author" name="author" value="{{.report.Author}}"> <br>
+        <input type="text" id="description" name="description" value="{{.report.Description }}"> <br>
+        <input type="text" id="read_count" name="read_count" value="{{ .report.ReadCount }}"><br>
+        <input type="text" id="classify" name="classify" value="{{ .report.Classify }}"> <br>
+        {{ range $i, $label := .labels }}
+            {{ $label.Name }}: <input type="checkbox" value="{{ $label }}" name="labels"> &nbsp;&nbsp;
+        {{ end }}
+        <br>
+        <input type="submit" value="确认修改">
+    </form>
+</body>
+</html>

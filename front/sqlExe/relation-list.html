@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多对多</title>
+</head>
+<body>
+    <h1><a href="/add_tag">新增标签</a></h1>
+    <table>
+        <thread>
+            <th>标签Id</th>
+            <th>标签描述</th>
+            <th>修改</th>
+            <th>删除</th>
+        </thread>
+        {{ range .labels }}
+        <tr>
+            <td>{{ .Id }}</td>
+            <td>{{ .Name }}</td>
+            <td><a href="/add_tag">修改</a> </td>
+            <td><a href="/">删除</a> </td>
+        </tr>
+        {{ end }}
+    </table>
+</body>
+</html>

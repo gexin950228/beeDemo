@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>删除文章</title>
+</head>
+<body>
+  <h1>删除文章</h1>
+  <form action="/delete_report" method="post">
+    <input style="display: none" type="text" value="{{ .report_many.Id }}" name="id" id="id">
+    <input type="text" value="{{ .report_many.Title }}" name="title"> <br>
+    <input type="text" value="{{ .report_many.Author }}" name="author"> <br>
+    <input type="text" name="description" id="description" value="{{ .report_many.Description }}"><br>
+    <input type="text" name="classify" id="classify" value="{{ .report_many.Classify }}"> <br>
+    <input type="text" name="read_count" id="read_count" value="{{ .report_many.ReadCount }}">
+    <input type="submit" value="确定删除">
+  </form>
+</body>
+</html>

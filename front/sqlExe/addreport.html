@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加报道</title>
+</head>
+<body>
+<form action="/add_report" method="post">
+  <input type="text" value="{{ .uid }}" style="display: none">
+  <input type="text" name="title" placeholder="请输入标题"> <br>
+  <input type="text" name="author" placeholder="请输入作者"> <br>
+  <input type="text" name="description" id="description" placeholder="请输入文章描述"><br>
+  <input type="text" name="classify" id="classify" placeholder="请输入类型"> <br>
+  <input type="text" name="read_count" id="read_count" placeholder="请输入阅读次数">
+  <input type="submit" value="提交">
+</form>
+</body>
+</html>

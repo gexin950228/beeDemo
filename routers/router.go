@@ -48,4 +48,12 @@ func init() {
 	beego.Router("/one_to_one", &relationSql.OneToOneController{})
 	beego.Router("/one_to_many", &relationSql.OneToMany{})
 	beego.Router("/many_to_many", &relationSql.ManyToManyController{})
+	beego.Router("/e121", &relationSql.O2O{})
+	beego.Router("/e12m", &relationSql.O2M{})
+	beego.Router("/add_report", &relationSql.AddReport{})
+	beego.Router("/update_report/?:id", &relationSql.UpdateReport{})
+	beego.Router("/delete_report/?:id", &relationSql.DeleteReport{})
+	beego.Router("/m2m", &relationSql.TagListReportController{})
+	beego.Router("/add_tag/?:id", &relationSql.AddTag{})
+	beego.Router("/report_add_label/?:id", &relationSql.ReportAddTagController{})
 }

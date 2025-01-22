@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更新文章</title>
+</head>
+<body>
+  <h1>更新文章</h1>
+  <form action="/update_report" method="post">
+      <input type="text" name="id" dirname="id" value="{{ .report_many.Id }}" style="display: none">
+      <input type="text" value="{{ .report_many.Title }}" name="title"> <br>
+      <input type="text" value="{{ .report_many.Author }}" name="author"> <br>
+      <input type="text" name="description" id="description" value="{{ .report_many.Description }}"><br>
+      <input type="text" name="classify" id="classify" value="{{ .report_many.Classify }}"> <br>
+      <input type="text" name="read_count" id="read_count" value="{{ .report_many.ReadCount }}">
+      <input type="submit" value="确认修改">
+  </form>
+</body>
+</html>

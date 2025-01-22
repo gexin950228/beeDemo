@@ -4,8 +4,8 @@ import "github.com/astaxie/beego/orm"
 
 type Person struct {
 	Id            int64          `orm:"pk;auto"`
-	Name          string         `orm:"column(name);size(255)"`
-	IdCardNumber  string         `orm:"column(id_card_number);size(20)"`
+	Name          string         `form:"name" orm:"column(name);size(255)"`
+	IdCardNumber  string         `form:"id_card_number" orm:"column(id_card_number);size(20)"`
 	PersonProfile *PersonProfile `orm:"reverse(one)"`
 	ReportMany    []*ReportMany  `orm:"reverse(many)"`
 }
