@@ -6,15 +6,20 @@
 </head>
 <body>
     <h1>修改标签</h1>
-    <form action="/report_add_label">
+    <form action="/report_add_label" method="post">
         <input type="text" name="id" id="id" value="{{.report.Id}}"> <br>
         <input type="text" name="title" id="title" value="{{ .report.Title }}"> <br>
         <input type="text" id="author" name="author" value="{{.report.Author}}"> <br>
         <input type="text" id="description" name="description" value="{{.report.Description }}"> <br>
         <input type="text" id="read_count" name="read_count" value="{{ .report.ReadCount }}"><br>
         <input type="text" id="classify" name="classify" value="{{ .report.Classify }}"> <br>
+        <h2>勾选移除的文章标签:</h2>
+        {{ range $label :=  .existLabels }}
+            <input type="checkbox" value="{{$label.Id}}" name="deleteLabels"> &nbsp;{{ $label.Name }}
+        {{ end }}
+        <h2>勾选添加的文章标签:</h2>
         {{ range $i, $label := .labels }}
-            {{ $label.Name }}: <input type="checkbox" value="{{ $label }}" name="labels"> &nbsp;&nbsp;
+             <input type="checkbox" value="{{ $label.Id }}" name="addLabels"> &nbsp;{{ $label.Name }}
         {{ end }}
         <br>
         <input type="submit" value="确认修改">

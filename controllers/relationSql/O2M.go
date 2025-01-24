@@ -2,7 +2,6 @@ package relationSql
 
 import (
 	"beeDemo/models"
-	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 )
@@ -22,7 +21,6 @@ func (l *O2M) Get() {
 	if err != nil {
 		return
 	}
-	fmt.Println(reports)
 	l.Data["reports"] = reports
 	l.TplName = "sqlExe/o2m.html"
 }

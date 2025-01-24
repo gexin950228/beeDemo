@@ -26,7 +26,7 @@ func (c *AddReport) Post() {
 	var person models.Person
 	err := o.QueryTable(`person`).Filter("id", uid).One(&person)
 	if err != nil {
-		fmt.Println(err)
+		utils.LogToFile("ERROR", fmt.Sprintf("查询person出错，错误信息:%v", err))
 	}
 	var report models.ReportMany
 	title := c.GetString("title")
@@ -40,18 +40,13 @@ func (c *AddReport) Post() {
 	readCount := c.GetString("read_count")
 	parseInt, err := strconv.ParseInt(readCount, 10, 64)
 	if err != nil {
-		return
+		utils.LogToFile("ERROR", fmt.Sprintf("获取的id转化为int出错，错误信息:%v", err))
 	}
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println("###################################")
-	fmt.Printf("%T, %v\n", readCount, readCount)
 	report.ReadCount = parseInt
 	report.Person = &person
 	_, err = o.Insert(&report)
 	if err != nil {
-		fmt.Println(err)
+		utils.LogToFile("ERROR", fmt.Sprintf("获取的id转化为int出错，错误信息:%v", err))
 	}
 	c.TplName = "sqlExe/addreport.html"
 }
@@ -63,22 +58,15 @@ type UpdateReport struct {
 func (c *UpdateReport) Get() {
 	o := orm.NewOrm()
 	id := c.GetString("id")
-	fmt.Println("========================================")
-	fmt.Println(id)
 	var report models.ReportMany
 	reportId, err := strconv.ParseInt(id, 10, 64)
-
-	fmt.Println(reportId)
 	if err != nil {
-		fmt.Println(err.Error())
 		utils.LogToFile("Error", fmt.Sprintf("更新文章时获取文章信息失败，错误信息为： %s", err.Error()))
 	}
 	err = o.QueryTable("report_many").Filter("id", int(reportId)).One(&report)
 	if err != nil {
-		fmt.Println(err.Error())
 		utils.LogToFile("ERROR", fmt.Sprintf("更新文章查询文章数据出错 %s", err.Error()))
 	}
-	fmt.Println(report)
 	c.Data["report_many"] = report
 	c.TplName = "sqlExe/updatereport.html"
 }
@@ -89,7 +77,7 @@ func (c *UpdateReport) Post() {
 	var person models.Person
 	reportId, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
-		fmt.Println(err.Error())
+		utils.LogToFile("ERROR", fmt.Sprintf("获取report id出错，错误信息:%v", err))
 	}
 	o := orm.NewOrm()
 	o.QueryTable("report_many").Filter("id", reportId).One(&reportMany)
@@ -106,10 +94,9 @@ func (c *UpdateReport) Post() {
 	reportMany.Classify = classify
 	reportMany.ReadCount = int64(readCount)
 	reportMany.Person = &person
-	fmt.Println(reportMany.Person)
 	_, err = o.Update(&reportMany)
 	if err != nil {
-		fmt.Println(err.Error())
+		utils.LogToFile("ERROR", fmt.Sprintf("更新person信息出错，错误信息:%v", err))
 	}
 	c.Redirect("/e12m", 302)
 }
@@ -127,27 +114,24 @@ func (c *DeleteReport) Get() {
 	qs := o.QueryTable("report_many").Filter("id", reportId)
 	err := qs.One(&deleteReport)
 	if err != nil {
-		fmt.Printf("查询数据库出错，错误信息问： %s\n", err.Error())
+		utils.LogToFile("ERROR", fmt.Sprintf("查询数据库出错，错误信息问： %s\n", err.Error()))
 	}
-	fmt.Println(deleteReport)
 	c.Data["report_many"] = &deleteReport
 	c.TplName = "sqlExe/deletereport.html"
 }
 
 func (c *DeleteReport) Post() {
-	fmt.Println("进入删除页面")
 	var report models.ReportMany
 	id := c.GetString("id")
-	fmt.Printf("删除的文章id为: %s\n", id)
 	reportId, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
-		fmt.Println(err.Error())
+		utils.LogToFile("ERROR", fmt.Sprintf("获取的删除report id出错，错误信息:%v", err))
 	}
 	report.Id = int(reportId)
 	o := orm.NewOrm()
 	_, err = o.QueryTable("ReportMany").Filter("id", reportId).Update(orm.Params{"is_deleted": true})
 	if err != nil {
-		fmt.Println(err.Error())
+		utils.LogToFile("ERROR", fmt.Sprintf("获取的id转化为int出错，错误信息:%v", err))
 	}
 	c.Redirect("/e12m", 302)
 }

@@ -4,6 +4,8 @@
     <inspection_tool class="GoDfaErrorMayBeNotNil" enabled="true" level="WARNING" enabled_by_default="true">
       <methods>
         <method importPath="github.com/astaxie/beego/orm" receiver="RawSeter" name="Exec" />
+        <method importPath="beeDemo/controllers" receiver="*FileAjaxController" name="GetFile" />
+        <method importPath="beeDemo/controllers" receiver="*File1Controller" name="GetFile" />
       </methods>
     </inspection_tool>
   </profile>

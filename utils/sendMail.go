@@ -29,8 +29,7 @@ func SendMail(mailContext MailContext) SendResult {
 	dial := gomail.NewDialer(mailConfig.Host, mailConfig.Port, mailConfig.Account, mailConfig.Password)
 	err := dial.DialAndSend(msg)
 	if err != nil {
-		fmt.Printf("发送邮件出错: %s\n", err.Error())
-		LogToFile("Panic", err.Error())
+		LogToFile("Panic", fmt.Sprintf("发送邮件出错，错误信息: %s", err.Error()))
 		sendResult = SendResult{Code: 0, Error: err}
 	} else {
 		sendResult = SendResult{Code: 1, Error: nil}

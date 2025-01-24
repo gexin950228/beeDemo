@@ -2,7 +2,6 @@ package OrmTest
 
 import (
 	"beeDemo/utils"
-	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 )
@@ -78,10 +77,10 @@ func (c2 Complex2QueryController) Get() {
 	//fmt.Println(valueList)
 
 	var valueList orm.ParamsList
-	num, err := qs.ValuesFlat(&valueList, "title")
+	_, err := qs.ValuesFlat(&valueList, "title")
 	if err != nil {
 		utils.LogToFile("Error", err.Error())
 	}
-	fmt.Println(num, valueList)
+	c2.Data["valueList"] = valueList
 	c2.TplName = "complexQuery2.tpl"
 }

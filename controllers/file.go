@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"html/template"
+	"mime/multipart"
 )
 
 type File1Controller struct {
@@ -12,20 +13,25 @@ type File1Controller struct {
 }
 
 func (f *File1Controller) Get() {
-	fmt.Println("================url反转==================")
-	fmt.Println(beego.URLFor("File1Controller.Get", "name", "gexin", "age", 28))
+	//fmt.Println("================url反转==================")
+	//fmt.Println(beego.URLFor("File1Controller.Get", "name", "gexin", "age", 28))
 	f.Data["xsrfData"] = template.HTML(f.XSRFFormHTML())
 	f.TplName = "file/file1.html"
 }
 
 func (f *File1Controller) Post() {
 	file, h, err := f.GetFile("file")
-	defer file.Close()
-	if err != nil {
-		fmt.Println(err.Error())
-	}
+	defer func(file multipart.File) {
+		err := file.Close()
+		if err != nil {
+
+		}
+	}(file)
 	fileName := h.Filename
-	f.SaveToFile("file", "upload/"+utils.UniqueName(fileName))
+	err = f.SaveToFile("file", "upload/"+utils.UniqueName(fileName))
+	if err != nil {
+		utils.LogToFile("ERROR", fmt.Sprintf("报错文件%s出错，错误信息为: %s", fileName, err.Error()))
+	}
 	utils.LogToFile("Info", fmt.Sprintf("%s文件上传成功", h.Filename))
 	f.TplName = "ok.html"
 }
@@ -44,14 +50,18 @@ func (f2 *FileAjaxController) Get() {
 
 func (f2 FileAjaxController) Post() {
 	file, h, err := f2.GetFile("file")
-	defer file.Close()
-	if err != nil {
-		fmt.Println(err.Error())
-	}
+	defer func(file multipart.File) {
+		err := file.Close()
+		if err != nil {
+			utils.LogToFile("关闭问价你描述符出错从，Error", err.Error())
+		}
+	}(file)
 	fileName := h.Filename
-	fmt.Println(fileName)
 	f2.SetSession("beegoSession", "zhiliao")
-	f2.SaveToFile("file", "upload/"+utils.UniqueName(fileName))
+	err = f2.SaveToFile("file", "upload/"+utils.UniqueName(fileName))
+	if err != nil {
+		utils.LogToFile("ERROR", fmt.Sprintf("报错文件出错，错误信息为: %s", err.Error()))
+	}
 	f2.Data["xsrfData"] = template.HTML(f2.XSRFFormHTML())
 	f2.Data["json"] = map[string]string{"code": "200", "msg": "上传成功", "filename": fileName}
 	f2.ServeJSON()

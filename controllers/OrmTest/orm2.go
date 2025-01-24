@@ -46,7 +46,6 @@ func (a *ArticleController) Post() {
 	article.Author = author
 	description := a.GetString("description")
 	article.Description = description
-	fmt.Println(article)
 	data := map[string]string{"title": title, "author": author, "description": description}
 	a.Data["json"] = data
 	a.ServeJSON()
@@ -110,10 +109,12 @@ func (u *UpdateArticleController) Get() {
 	ids := u.GetString("id")
 	id, _ := strconv.Atoi(ids)
 	article.Id = id
-	orm := orm.NewOrm()
-	orm.Read(&article, "id")
+	o := orm.NewOrm()
+	err := o.Read(&article, "id")
+	if err != nil {
+		utils.LogToFile("Error", fmt.Sprintf("read article err: %s", err.Error()))
+	}
 	u.Data["article"] = article
-	fmt.Println(article)
 	u.TplName = "updateArticle.html"
 }
 

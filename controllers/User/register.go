@@ -79,7 +79,6 @@ func (c *RegisterController) Post() {
 	repInfo.RegUser = registerInfo.Username
 	var searchResult utils.SearchRedisResult
 	key := fmt.Sprintf("%s_register_code", registerInfo.Email)
-	fmt.Println(key)
 	searchResult = utils.SearchRedis(key)
 	if searchResult.Code == 0 {
 		repInfo.Code = 1
@@ -110,7 +109,6 @@ func (c *RegisterController) Post() {
 		saveRegisterUsers.Email = registerInfo.Email
 		passwordByte := []byte(registerInfo.Password)
 		hashedPassword := base64.StdEncoding.EncodeToString(passwordByte)
-		fmt.Printf("加密后的密码:  %s\n", hashedPassword)
 		saveRegisterUsers.Password = string(hashedPassword)
 		_, err = o.Insert(&saveRegisterUsers)
 		if err != nil {

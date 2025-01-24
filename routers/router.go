@@ -30,7 +30,7 @@ func init() {
 	beego.Router("/file2", &controllers.FileAjaxController{})
 	beego.Router("/login/?:redirectUri", &User.LoginController{})
 	beego.Router("/verifyCode", &User.SendVerifyCodeController{})
-	beego.Router("/validator", &controllers.ValicatorController{})
+	beego.Router("/validator", &controllers.ValidatorController{})
 	beego.Router("/abort", &controllers.AbortController{})
 	beego.Router("/tpl1", &controllers.TemplateController{})
 	beego.Router("/tpl2", &controllers.Template2Controller{})
@@ -54,6 +54,5 @@ func init() {
 	beego.Router("/update_report/?:id", &relationSql.UpdateReport{})
 	beego.Router("/delete_report/?:id", &relationSql.DeleteReport{})
 	beego.Router("/m2m", &relationSql.TagListReportController{})
-	beego.Router("/add_tag/?:id", &relationSql.AddTag{})
 	beego.Router("/report_add_label/?:id", &relationSql.ReportAddTagController{})
 }

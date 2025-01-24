@@ -2,6 +2,7 @@ package relationSql
 
 import (
 	"beeDemo/models"
+	"beeDemo/utils"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
@@ -38,16 +39,11 @@ func (el *O2O) Post() {
 	qs := o.QueryTable("person")
 	err = qs.Filter("id_card_number", user.IdCardNumber).One(&userInDatabase)
 	if err != nil {
-		fmt.Println(err)
-	}
-	if userInDatabase.Id > 0 {
-		fmt.Printf("身份证号码为%s的用户存在", userInDatabase.IdCardNumber)
-	} else {
-		fmt.Printf("身份证号码为%s的用户不存在", userInDatabase.IdCardNumber)
+		utils.LogToFile("ERROR", fmt.Sprintf("查询person数据出错，错误信息为： %s", err.Error()))
 	}
 	_, err = o.InsertOrUpdate(&userInDatabase, "id_card_number")
 	if err != nil {
-		fmt.Printf("插入数据库出错，错误信息为: %s", err.Error())
+		utils.LogToFile("ERROR", fmt.Sprintf("插入数据库出错，错误信息为: %s", err.Error()))
 	}
 	up.Person = &models.Person{Id: userInDatabase.Id, Name: userInDatabase.Name, IdCardNumber: userInDatabase.IdCardNumber}
 	_, err = o.InsertOrUpdate(&up, "person_id")

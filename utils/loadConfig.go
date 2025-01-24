@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"gopkg.in/yaml.v3"
 	"os"
 	"path/filepath"
@@ -21,11 +20,11 @@ func LoadConfig() (mail Mail) {
 	cfgFile := filepath.Join(pwd, "conf/", "mail.yaml")
 	data, err := os.ReadFile(cfgFile)
 	if err != nil {
-		fmt.Printf("err: %s\n", err)
+		LogToFile(err.Error(), "LoadConfig")
 	} else {
 		err := yaml.Unmarshal(data, &mail)
 		if err != nil {
-			fmt.Printf("err: %s\n", err)
+			LogToFile(err.Error(), "LoadConfig")
 			return
 		}
 	}

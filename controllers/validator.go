@@ -7,11 +7,11 @@ import (
 	"github.com/astaxie/beego/validation"
 )
 
-type ValicatorController struct {
+type ValidatorController struct {
 	beego.Controller
 }
 
-func (c *ValicatorController) Get() {
+func (c *ValidatorController) Get() {
 	c.TplName = "validator.html"
 }
 
@@ -27,7 +27,7 @@ type ValidateResult struct {
 	ErrorMsg []string `json:"errorMsg"`
 }
 
-func (c *ValicatorController) Post() {
+func (c *ValidatorController) Post() {
 	//name := c.GetString("name")
 	//phone := c.GetString("phone")
 	//age, _ := c.GetInt64("age")
@@ -36,7 +36,10 @@ func (c *ValicatorController) Post() {
 
 	// 解析到结构体
 	var vData Validate
-	c.ParseForm(&vData)
+	err := c.ParseForm(&vData)
+	if err != nil {
+		utils.LogToFile("ERROR", err.Error())
+	}
 	//
 	var MessagTpls = map[string]string{
 		"Required": "不能为空",
@@ -64,9 +67,8 @@ func (c *ValicatorController) Post() {
 		validateError.Code = 0
 		validateError.ErrorMsg = []string{}
 		for _, err := range valid.Errors {
-			fmt.Println(fmt.Sprintf("%s校验出错，validation error: %s", err.Key, err.Error()))
+			utils.LogToFile("ERROR", err.Error())
 			validateError.ErrorMsg = append(validateError.ErrorMsg, err.Key+err.Message)
-			fmt.Println(validateError.ErrorMsg)
 			utils.LogToFile("Error", fmt.Sprintf("%s校验错误，错误信息: %v", err.Name, err.Error()))
 			c.Data["json"] = validateError
 			//c.ServeJSON()

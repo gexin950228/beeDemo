@@ -2,7 +2,6 @@ package OrmTest
 
 import (
 	"beeDemo/models"
-	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 )
@@ -12,11 +11,11 @@ type Complex1QueryController struct {
 }
 
 func (c1 *Complex1QueryController) Get() {
-	orm := orm.NewOrm()
+	o := orm.NewOrm()
 	//orm.QueryTable("article")
 	var article models.Article
 	var articles []models.Article
-	qs := orm.QueryTable(article)
+	qs := o.QueryTable(article)
 	//qs.Filter("id__exact", "2").One(&article) // 等于,大小写敏感
 	//qs.Filter("title__iexact", "kubernetes in action").All(&articles) // 大小写不敏感
 	//fmt.Println(articles)
@@ -41,6 +40,6 @@ func (c1 *Complex1QueryController) Get() {
 	if err != nil {
 		return
 	}
-	fmt.Println(articles)
+	c1.Data["articles"] = articles
 	c1.TplName = "complexQuery1.html"
 }

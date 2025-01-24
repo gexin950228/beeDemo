@@ -2,7 +2,6 @@ package relationSql
 
 import (
 	"beeDemo/models"
-	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 )
@@ -91,6 +90,5 @@ func (c *OneToOneController) Get() {
 	if err != nil {
 		return
 	}
-	fmt.Println(personProfile.Person.Name)
 	c.TplName = "relationSql/oneToOne.html"
 }

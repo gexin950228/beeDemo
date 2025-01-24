@@ -41,7 +41,7 @@ func (n *NativeSqlController) Get() {
 		utils.LogToFile("Error", fmt.Sprintf("执行原生sql失败，错误信息：%s", err.Error()))
 		return
 	}
-	fmt.Println(article)
+	n.Data["article"] = article
 	n.TplName = "nativeSqlController.tpl"
 }
 
@@ -85,7 +85,7 @@ func (q *QueryArticleController) Post() {
 			articleId, _ := strconv.ParseInt(articleInfo["id"], 10, 64)
 			_, err := qs.Filter("id__exact", articleId).All(&articles)
 			if err != nil {
-				fmt.Println(err)
+				utils.LogToFile("Error", err.Error())
 			}
 			q.Data["article"] = articles
 			q.TplName = "queryArticle.html"

@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"html/template"
 
 	"github.com/astaxie/beego"
@@ -14,7 +13,7 @@ type TestXsrfController struct {
 func (t *TestXsrfController) Get() {
 	t.Data["xsrfData"] = template.HTML(t.XSRFFormHTML())
 	username := t.GetSession("beegoSession")
-	fmt.Println(username)
+	t.Data["username"] = username
 	t.TplName = "xsrf.html"
 }
 
@@ -24,6 +23,5 @@ func (t *TestXsrfController) Prepare() {
 }
 
 func (t *TestXsrfController) Post() {
-	fmt.Println("haaaaaa")
 	t.TplName = "ok.html"
 }
