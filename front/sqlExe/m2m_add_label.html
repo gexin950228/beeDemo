@@ -13,12 +13,12 @@
         <input type="text" id="description" name="description" value="{{.report.Description }}"> <br>
         <input type="text" id="read_count" name="read_count" value="{{ .report.ReadCount }}"><br>
         <input type="text" id="classify" name="classify" value="{{ .report.Classify }}"> <br>
-        <h2>勾选移除的文章标签:</h2>
-        {{ range $label :=  .existLabels }}
-            <input type="checkbox" value="{{$label.Id}}" name="deleteLabels"> &nbsp;{{ $label.Name }}
+        <h2>已经存在的文章标签:</h2>
+        {{ range $i, $label := .existLabels }}
+            <input type="checkbox" value="{{ $label.Id }}" name="existLabels" checked> &nbsp;{{ $label.Name }}
         {{ end }}
         <h2>勾选添加的文章标签:</h2>
-        {{ range $i, $label := .labels }}
+        {{ range $i, $label := .addLabels }}
              <input type="checkbox" value="{{ $label.Id }}" name="addLabels"> &nbsp;{{ $label.Name }}
         {{ end }}
         <br>
